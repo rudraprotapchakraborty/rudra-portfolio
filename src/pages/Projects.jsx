@@ -1,26 +1,26 @@
 import { Link } from 'react-router-dom';
-import project1 from '../assets/project1.png';
-import project2 from '../assets/project2.png';
-import project3 from '../assets/project3.png';
+import project1 from '../assets/hotel-management.png';
+import project2 from '../assets/food-sharing.png';
+import project3 from '../assets/movie-portal.png';
 
 const projects = [
   {
     id: 1,
-    name: 'Food Sharing Website',
+    name: 'Hotel Management System',
     image: project1,
-    description: 'A platform that connects people to share surplus food, reducing waste and helping communities.',
+    description: 'A Hostel Management System client-side application built with React.js, featuring user authentication, meal management, reviews, and an admin panel for efficient hostel operations.',
   },
   {
     id: 2,
-    name: 'Movie Website',
+    name: 'Food Sharing Website',
     image: project2,
-    description: 'A sleek and interactive movie database with user reviews, ratings, and personalized recommendations.',
+    description: 'A Community Food Sharing platform built with React.js, enabling users to share surplus food, request essentials, and reduce waste with secure authentication and real-time updates.',
   },
   {
     id: 3,
-    name: 'Eco Adventure Website',
+    name: 'Movie Portal',
     image: project3,
-    description: 'An engaging website promoting eco-friendly adventures and sustainable travel destinations.',
+    description: 'A Movie Portal app built with React.js, offering a user-friendly interface to browse, search, and filter movies, view details, and add favorites, all with a responsive design.',
   },
 ];
 
