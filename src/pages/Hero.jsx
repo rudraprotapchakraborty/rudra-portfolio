@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../context/ThemeContext';
 import { FaSquareXTwitter } from 'react-icons/fa6';
-import photo from '../assets/photo.jpg';
 import '../index.css';
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
@@ -38,7 +37,7 @@ const Hero = () => {
                 transition={{ duration: 1 }}
             >
                 <a
-                    href="https://github.com/rudraphymos"
+                    href="https://github.com/rudraprotapchakraborty"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-purple-900 hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
@@ -47,7 +46,7 @@ const Hero = () => {
                     <FaGithub className="text-xl" />
                 </a>
                 <a
-                    href="https://linkedin.com/in/rudrphymos"
+                    href="https://linkedin.com/in/rudraprotapchakraborty"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-purple-900 hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
@@ -56,7 +55,7 @@ const Hero = () => {
                     <FaLinkedin className="text-xl" />
                 </a>
                 <a
-                    href="https://x.com/rudraphymos"
+                    href="https://x.com/rudraprotapchak"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-purple-900 hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
@@ -65,7 +64,7 @@ const Hero = () => {
                     <FaSquareXTwitter className="text-xl" />
                 </a>
                 <a
-                    href="https://facebook.com/rudraphy"
+                    href="https://facebook.com/rudraprotapchakraborty1"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-purple-900 hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
@@ -114,7 +113,7 @@ const Hero = () => {
                     transition={{ duration: 1 }}
                 >
                     <motion.img
-                        src={photo}
+                        src="https://i.ibb.co/93CMfQKW/photo-rudra-protap-chakraborty.png"
                         alt="Rudra Protap Chakraborty"
                         className="max-w-full w-full h-full rounded-t-[40px] rounded-br-[40px] shadow-lg object-cover border-4 border-purple-700"
                         {...floatingEffect}
