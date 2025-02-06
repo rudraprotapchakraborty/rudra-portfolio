@@ -106,7 +106,7 @@ const Hero = () => {
         </motion.p>
         <a
           target="_blank"
-          href="https://docs.google.com/document/d/19I6D8w9wB4i3ZAcJ_c9ELnIEatJveP2vf1ekycXakIA/edit?usp=sharing"
+          href="https://drive.google.com/file/d/1FF9UVp8LXuXvHNKp9hZE-bxd22BFVPRa/view?usp=sharing"
           download
           className="inline-block bg-purple-600 text-white px-8 py-3 mt-6 rounded-full shadow-lg hover:bg-purple-500 hover:-translate-y-2 transition-transform duration-300"
         >

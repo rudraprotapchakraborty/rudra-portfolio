@@ -101,7 +101,8 @@ const Navbar = () => {
 
           {/* Download Resume Button */}
           <a
-            href="#resume"
+          target="_blank"
+            href="https://drive.google.com/file/d/1FF9UVp8LXuXvHNKp9hZE-bxd22BFVPRa/view?usp=sharing"
             className="hidden sm:block bg-purple-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-purple-600 dark:hover:bg-purple-500 transition-transform duration-300 transform hover:scale-105"
           >
             Download Resume
@@ -122,7 +123,8 @@ const Navbar = () => {
         <ul className="md:hidden absolute top-12 right-0 w-3/5 bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col gap-4 items-center text-lg rounded-lg">
           {links}
           <a
-            href="#resume"
+          target="_blank"
+            href="https://drive.google.com/file/d/1FF9UVp8LXuXvHNKp9hZE-bxd22BFVPRa/view?usp=sharing"
             className="block text-base bg-purple-500 text-white px-2 py-1 rounded-full shadow-lg hover:bg-purple-600 dark:hover:bg-purple-500 transition-transform duration-300 transform hover:scale-105"
           >
             Download Resume
