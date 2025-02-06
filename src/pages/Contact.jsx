@@ -115,7 +115,7 @@ const Contact = () => {
                             </div>
                             <div className="flex items-center justify-center gap-2">
                                 <FaWhatsapp className="text-3xl text-purple-500" />
-                                <p className="text-lg">{`+8801334509527`}</p>
+                                <p className="text-lg">{`+917439361200`}</p>
                             </div>
                             <div className="flex items-center justify-center gap-2">
                                 <IoMail className="text-3xl text-purple-500" />
