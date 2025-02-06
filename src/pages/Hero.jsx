@@ -123,7 +123,7 @@ const Hero = () => {
           transition={{ duration: 1 }}
         >
           <motion.img
-            src="https://i.ibb.co/93CMfQKW/photo-rudra-protap-chakraborty.png"
+            src="https://i.ibb.co/7Jn0DKtF/photo-rudra-protap-chakraborty-reduced.jpg"
             alt="Rudra Protap Chakraborty"
             className="max-w-full w-full h-full rounded-t-[40px] rounded-br-[40px] shadow-lg object-cover border-4 border-purple-700"
             {...floatingEffect}
