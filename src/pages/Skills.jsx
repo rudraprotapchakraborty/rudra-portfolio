@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode, FaGitAlt } from "react-icons/fa"; // Importing Icons
+import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode, FaGitAlt, FaFire } from "react-icons/fa"; // Importing Icons
+import { SiNextdotjs } from "react-icons/si"; // Import Next.js icon
 import { ThemeContext } from '../context/ThemeContext'; // Import the ThemeContext
 
 const Skills = () => {
@@ -20,7 +21,8 @@ const Skills = () => {
                 { name: "HTML", icon: <FaHtml5 />, level: 90 },
                 { name: "CSS", icon: <FaCss3Alt />, level: 85 },
                 { name: "JavaScript", icon: <FaJs />, level: 80 },
-                { name: "React", icon: <FaReact />, level: 75 }
+                { name: "React", icon: <FaReact />, level: 75 },
+                { name: "Next.js", icon: <SiNextdotjs />, level: 70 } // Added Next.js
             ]
         },
         {
@@ -34,7 +36,8 @@ const Skills = () => {
         {
             category: "Tools",
             skills: [
-                { name: "Git", icon: <FaGitAlt />, level: 80 }
+                { name: "Git", icon: <FaGitAlt />, level: 80 },
+                { name: "Firebase", icon: <FaFire />, level: 65 } // Added Firebase
             ]
         }
     ];
@@ -68,7 +71,7 @@ const Skills = () => {
                                             boxShadow: "0 0 10px rgba(204, 153, 255, 0.5)"
                                         }}
                                         animate={{
-                                            backgroundPosition: ["200% 200%", "-200% -200%"],
+                                            backgroundPosition: ["200% 200%", "-200% 200%"],
                                         }}
                                         transition={{
                                             duration: 2,
@@ -82,19 +85,6 @@ const Skills = () => {
                                         <div className="flex items-center space-x-4">
                                             <div className="text-3xl text-purple-300">{skill.icon}</div>
                                             <span className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{skill.name}</span>
-                                        </div>
-
-                                        {/* Level (progress bar and percentage) */}
-                                        <div className="flex items-center space-x-4">
-                                            <span className={`text-${darkMode ? 'gray-300' : 'gray-700'}`}>{skill.level}%</span>
-                                            <div className="relative w-24 h-2 bg-gray-700 rounded-full">
-                                                <motion.div
-                                                    className="h-full rounded-full bg-purple-500"
-                                                    style={{ width: `${skill.level}%` }}
-                                                    animate={{ width: `${skill.level}%` }}
-                                                    transition={{ duration: 1 }}
-                                                />
-                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>
