@@ -3,7 +3,7 @@
 Welcome to my personal portfolio website! This project is built using **React** and styled with **DaisyUI**, showcasing my journey as a **physics student** and aspiring **front-end web developer**.  
 
 ## Screenshot
-![Portfolio Website](/src/assets/screenshot.png)
+![Portfolio Website](/src/assets/screenshot.png?v=2)
 
 ## 🔍 About the Project  
 This portfolio serves as a platform to highlight my skills, projects, and interests. It reflects my passion for creating sleek, user-friendly, and interactive web designs while integrating my analytical background in physics.  
