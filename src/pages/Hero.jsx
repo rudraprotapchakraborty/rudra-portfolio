@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import "../index.css";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
+import "../index.css";
 
 const Hero = () => {
-  const { darkMode } = useContext(ThemeContext); // Access darkMode from context
+  const { darkMode } = useContext(ThemeContext);
 
   // Animation Configurations
   const fadeInUp = (delay = 0) => ({
@@ -14,11 +14,6 @@ const Hero = () => {
     animate: { opacity: 1, y: 0 },
     transition: { duration: 1, delay },
   });
-
-  const floatingEffect = {
-    animate: { y: [0, -15, 0], rotate: [0, 2, -2, 0] },
-    transition: { duration: 6, ease: "easeInOut", repeat: Infinity },
-  };
 
   return (
     <div
@@ -53,7 +48,7 @@ const Hero = () => {
           <FaLinkedin className="text-xl" />
         </a>
         <a
-          href="https://x.com/rudraprotapchak"
+          href="https://x.com/rudraprotapc"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-white text-purple-900 dark:text-white dark:bg-purple-900 dark:hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
@@ -106,7 +101,7 @@ const Hero = () => {
         </motion.p>
         <a
           target="_blank"
-          href="https://drive.google.com/file/d/1FF9UVp8LXuXvHNKp9hZE-bxd22BFVPRa/view?usp=sharing"
+          href="https://drive.google.com/file/d/1wqVSRQ6Jhh212Mv8Ztrde-5dOXRGf-sk/view?usp=sharing"
           download
           className="inline-block bg-purple-600 text-white px-8 py-3 mt-6 rounded-full shadow-lg hover:bg-purple-500 hover:-translate-y-2 transition-transform duration-300"
         >
@@ -114,29 +109,30 @@ const Hero = () => {
         </a>
       </div>
 
-      {/* Image Section */}
-      <div className="relative w-60 h-60 lg:w-80 lg:h-80">
+      {/* Image Section with Morphing Hard Border */}
+      <div className="relative w-60 h-60 lg:w-80 lg:h-80 flex justify-center items-center">
+        {/* Morphing Hard Border */}
         <motion.div
-          className="relative"
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          <motion.img
+          className="absolute w-[110%] h-[110%] border-[3px] border-purple-500"
+          animate={{
+            scale: [1, 1.05, 1],
+            rotate: [0, 8, -8, 0],
+            borderRadius: ["50%", "44%", "56%", "50%"],
+          }}
+          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+          style={{
+            background: "transparent",
+          }}
+        ></motion.div>
+
+        {/* Profile Image */}
+        <button>
+          <img
             src="https://i.ibb.co/7Jn0DKtF/photo-rudra-protap-chakraborty-reduced.jpg"
             alt="Rudra Protap Chakraborty"
-            className="max-w-full w-full h-full rounded-t-[40px] rounded-br-[40px] shadow-lg object-cover border-4 border-purple-700"
-            {...floatingEffect}
+            className="w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover border-4 dark:border-white border-purple-500 shadow-lg relative"
           />
-        </motion.div>
-        <motion.div
-          className={`absolute top-0 left-0 w-full h-full bg-gradient-to-r from-purple-800 to-black opacity-30 rounded-t-[40px] rounded-br-[40px] pointer-events-none ${
-            darkMode ? "opacity-30" : "opacity-20"
-          }`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.3 }}
-          transition={{ duration: 1, delay: 0.8 }}
-        />
+        </button>
       </div>
     </div>
   );

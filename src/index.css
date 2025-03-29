@@ -2,56 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Hide the default cursor completely */
 body, html {
-    cursor: none;  /* Disable default cursor */
+    cursor: none;
 }
 
-/* Custom Circle Cursor */
-.custom-cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    background-color: #d8aaff; /* Light purple color for main cursor */
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+button, a, .hover-target, input[type="checkbox"], label, input, textarea {
+    cursor: none !important;
 }
-
-/* Cursor Trail */
-.cursor-trail {
-    position: fixed;
-    width: 12px;
-    height: 12px;
-    background-color: #ff6347; /* Default trail color */
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 1;
-    animation: float 0.8s ease-in-out infinite; /* Floating motion animation */
-}
-
-/* Floating effect for follow cursors */
-@keyframes float {
-    0% {
-        transform: translate(0, 0);
-    }
-    50% {
-        transform: translate(5px, 5px); /* Small bouncing effect */
-    }
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-/* Ensure buttons and links do not show the default pointer cursor */
-button, a, .hover-target {
-    cursor: none !important;  /* Explicitly hide the pointer on buttons, links, and hover targets */
-}
-
-
-
-
-
