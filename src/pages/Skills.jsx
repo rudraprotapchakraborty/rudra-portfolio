@@ -1,123 +1,203 @@
-import { useContext } from 'react';
-import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJs, FaReact, FaNode } from "react-icons/fa"; 
-import { SiTailwindcss, SiFirebase, SiMongodb, SiExpress, SiNextdotjs } from "react-icons/si"; 
-import { ThemeContext } from '../context/ThemeContext';
+import { useContext } from "react";
+import { motion } from "framer-motion";
+
+import { ThemeContext } from "../context/ThemeContext";
+import GlowOrb from "../components/GlowOrb";
+
+// Icons
+import html from "../assets/icons/html.png";
+import css from "../assets/icons/css.png";
+import javascript from "../assets/icons/javascript.png";
+import react from "../assets/icons/react.png";
+import mongodb from "../assets/icons/mongodb.png";
+import firebase from "../assets/icons/firebase.png";
+import tailwind from "../assets/icons/tailwind.png";
+import node from "../assets/icons/node.png";
+import nextjs from "../assets/icons/nextjs.png";
+import ai from "../assets/icons/ai.png";
 
 const Skills = () => {
-    const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
 
-    // Animation Variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { staggerChildren: 0.2 } }
-    };
+  // PH-style stagger container
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.2,
+      },
+    },
+  };
 
-    const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-    };
+  // PH-style slide-up
+  const item = {
+    hidden: { opacity: 0, y: 40 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.65, ease: "easeOut" },
+    },
+  };
 
-    const skills = [
-        {
-            category: "Frontend",
-            skills: [
-                { name: "HTML", icon: <FaHtml5 /> },
-                { name: "CSS", icon: <FaCss3Alt /> },
-                { name: "Tailwind", icon: <SiTailwindcss /> },
-                { name: "JavaScript", icon: <FaJs /> },
-                { name: "React", icon: <FaReact /> },
-                { name: "Next.js", icon: <SiNextdotjs /> }
-            ]
-        },
-        {
-            category: "Backend",
-            skills: [
-                { name: "Node.js", icon: <FaNode /> },
-                { name: "Express.js", icon: <SiExpress /> },
-                { name: "MongoDB", icon: <SiMongodb /> },
-                { name: "Firebase", icon: <SiFirebase /> }
-            ]
-        }
-    ];
+  const titleFade = {
+    hidden: { opacity: 0, y: 30 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, ease: "easeOut" },
+    },
+  };
 
-    return (
-        <section id="skills" className={`py-16 min-h-screen px-6 lg:px-16 ${darkMode ? 'bg-black' : 'bg-white'}`}>
-            <motion.div 
-                className="container mx-auto"
-                variants={containerVariants}
-                initial="hidden"
-                animate="show"
-            >
-                {/* Section Title */}
-                <motion.h2 
-                    className={`text-4xl font-extrabold ${darkMode ? 'text-purple-300' : 'text-purple-700'} text-center mb-12`} 
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    My Skills
-                </motion.h2>
+  // Card base
+  const cardBase =
+    "relative rounded-[22px] p-8 w-full h-[380px] shadow-md border overflow-hidden";
 
-                {skills.map((category, index) => (
-                    <motion.div 
-                        key={index} 
-                        className="mb-12"
-                        variants={containerVariants}
-                    >
-                        {/* Category Title */}
-                        <motion.h3 
-                            className={`text-2xl font-semibold ${darkMode ? 'text-purple-300' : 'text-purple-700'} mb-6`} 
-                            variants={itemVariants}
-                        >
-                            {category.category}
-                        </motion.h3>
+  // PH-inspired colors
+  const colors = [
+    "bg-[#fdebef] border-[#f6d7df]",
+    "bg-[#e6f3ff] border-[#d2e7ff]",
+    "bg-[#fff8cc] border-[#f6e8a8]",
+    "bg-[#e6f6ff] border-[#cfefff]",
+    "bg-[#e4f7e7] border-[#ccefd2]",
+    "bg-[#fff4d8] border-[#ffeac0]",
+    "bg-[#e9f5ff] border-[#d5eaff]",
+    "bg-[#e9f8ed] border-[#d3f0d7]",
+    "bg-[#f2efff] border-[#e2dcff]",
+    "bg-[#f3ecff] border-[#e6d9ff]",
+  ];
 
-                        {/* Skills Grid */}
-                        <motion.div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                            {category.skills.map((skill, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    className={`relative p-6 rounded-lg shadow-lg overflow-hidden transition-all duration-300 
-                                    ${darkMode ? 'bg-gray-900' : 'bg-white'}`}
-                                    variants={itemVariants}
-                                    whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(204, 153, 255, 0.5)" }}
-                                >
-                                    {/* Glowing Light Effect - Moving Left to Right */}
-                                    <motion.div 
-                                        className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-300 to-transparent"
-                                        style={{
-                                            width: "150%",
-                                            height: "100%",
-                                            transform: "translateX(-100%)",
-                                            filter: "blur(10px)",
-                                            opacity: 0.3
-                                        }}
-                                        animate={{
-                                            x: ["-100%", "100%"],
-                                        }}
-                                        transition={{
-                                            duration: 2,
-                                            ease: "linear",
-                                            repeat: Infinity
-                                        }}
-                                    />
+  const skills = [
+    {
+      title: "HTML",
+      icon: html,
+      text: "Foundation of webpages. Learn semantic markup, clean layouts, and accessible structure.",
+    },
+    {
+      title: "CSS",
+      icon: css,
+      text: "Styling language for layouts. Master Flexbox, Grid, animations, and responsive design.",
+    },
+    {
+      title: "JavaScript",
+      icon: javascript,
+      text: "Core web logic. Learn ES6+, async code, APIs, and dynamic interactivity.",
+    },
+    {
+      title: "React",
+      icon: react,
+      text: "Component-based UI library. Build scalable interfaces with hooks, state, and routing.",
+    },
+    {
+      title: "MongoDB",
+      icon: mongodb,
+      text: "NoSQL database for modern apps. Learn CRUD, modeling, indexing, and integrations.",
+    },
+    {
+      title: "Firebase",
+      icon: firebase,
+      text: "Serverless backend: auth, Firestore, hosting, storage, and real-time features.",
+    },
+    {
+      title: "Tailwind CSS",
+      icon: tailwind,
+      text: "Utility-first CSS framework for fast, clean, responsive UIs.",
+    },
+    {
+      title: "Node.js",
+      icon: node,
+      text: "JavaScript backend runtime: APIs, routing, authentication, and server logic.",
+    },
+    {
+      title: "Next.js",
+      icon: nextjs,
+      text: "Full-stack React with SSR, API routes, routing, and production optimizations.",
+    },
+    {
+      title: "AI",
+      icon: ai,
+      text: "Use AI tools for coding, debugging, prototyping, and smart application workflows.",
+    },
+  ];
 
-                                    {/* Skill Content */}
-                                    <div className="flex items-center space-x-4 relative z-10">
-                                        <div className="text-3xl text-purple-300">{skill.icon}</div>
-                                        <span className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                            {skill.name}
-                                        </span>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </motion.div>
-                ))}
-            </motion.div>
-        </section>
-    );
+  return (
+    <section
+      id="skills"
+      className={`relative py-28 min-h-screen px-8 lg:px-24 transition-colors duration-700 ${
+        darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf3ff]"
+      }`}
+    >
+      {/* Background Glow */}
+      <GlowOrb
+        className="absolute top-[-180px] right-[-140px] w-[360px] h-[360px] blur-[220px] opacity-60"
+        color="#b57aff"
+      />
+
+      <motion.h1
+        variants={titleFade}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="text-5xl font-extrabold text-center mb-20 
+        bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff]
+        text-transparent bg-clip-text"
+      >
+        My Skills
+      </motion.h1>
+
+      {/* Cards container */}
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        {skills.map((skill, i) => (
+          <motion.div
+            key={i}
+            variants={item}
+            whileHover={{ y: -8 }}
+            className={`${cardBase} ${colors[i]}`}
+          >
+            {/* 🌈 Moving glowing sweep like PH */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)",
+                filter: "blur(18px)",
+              }}
+              animate={{ x: ["-120%", "120%"] }}
+              transition={{
+                duration: 2.4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+
+            {/* Icon */}
+            <img
+              src={skill.icon}
+              alt={skill.title}
+              className="w-[85px] h-[85px] object-contain mb-6 relative z-10"
+            />
+
+            {/* Title */}
+            <h3 className="text-2xl font-bold mb-4 text-[#3b2b7f] relative z-10">
+              {skill.title}
+            </h3>
+
+            {/* Text */}
+            <p className="text-[15px] leading-[1.55] text-gray-800 relative z-10">
+              {skill.text}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+    </section>
+  );
 };
 
 export default Skills;

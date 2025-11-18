@@ -1,98 +1,207 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
-import logo from "../../public/favicon.png";
+import {
+  FaFacebook,
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const Footer = () => {
-  const { darkMode } = useContext(ThemeContext); // Access darkMode from context
+  const { darkMode } = useContext(ThemeContext);
+
+  // ❗ Dark ONLY when user toggles, not based on page
+  const isDark = darkMode;
+
+  const [formData, setFormData] = useState({ email: "", message: "" });
+  const [sent, setSent] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSent(true);
+    setTimeout(() => setSent(false), 2500);
+    setFormData({ email: "", message: "" });
+  };
 
   return (
     <footer
-      className={`relative overflow-hidden ${
-        darkMode
-          ? "bg-black bg-opacity-80 text-gray-300"
-          : "bg-white text-gray-800"
-      } backdrop-blur-md shadow-lg`}
+      className={`relative pt-20 pb-12 overflow-hidden transition-all duration-700
+      ${isDark ? "bg-[#020617] text-gray-300" : "bg-[#faf2ff] text-gray-800"}`}
     >
-      {/* Floating Animated Glow */}
-      <div className="absolute -top-16 -left-16 w-32 h-32 bg-purple-500 opacity-20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute -bottom-16 -right-16 w-32 h-32 bg-blue-500 opacity-20 rounded-full blur-3xl animate-pulse"></div>
+      {/* Waves Background */}
+      <img
+        src="https://raw.githubusercontent.com/ProgrammingHero1/footer-wave/main/waves.svg"
+        className="absolute bottom-0 left-0 w-full opacity-20 pointer-events-none"
+        alt=""
+      />
 
-      <div className="container mx-auto py-12 px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-8">
-        {/* Name and Tagline */}
-        <div className="text-center md:text-left flex flex-col md:flex-row items-center md:gap-4">
-          <motion.img
-            className="w-24 md:w-32"
-            src={logo}
-            alt="Logo"
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            transition={{ duration: 0.3 }}
-          />
-          <div>
-            <h1
-              className={`text-3xl font-semibold ${
-                darkMode ? "text-white" : "text-black"
-              }`}
-            >
-              Rudra Protap Chakraborty
-            </h1>
-            <p
-              className={`text-lg mt-2 ${
-                darkMode ? "text-gray-400" : "text-gray-600"
-              }`}
-            >
-              MERN Stack Developer & Problem Solver
+      {/* 4 COLUMN LAYOUT */}
+      <div
+        className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 
+          grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14"
+      >
+        {/* COLUMN 1: CONTACT INFO */}
+        <div>
+          {/* Logo */}
+          <button className="flex items-center gap-2 mb-6">
+            <img className="w-14" src="/favicon.png" alt="" />
+
+            <div className="flex flex-col items-start leading-[1.05]">
+              <span className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+                Rudra Protap
+              </span>
+              <span className={`text-2xl font-bold -mt-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+                Chakraborty
+              </span>
+            </div>
+          </button>
+
+          <div className="flex items-start gap-3 mb-4">
+            <FaMapMarkerAlt className="text-xl text-purple-400" />
+            <p>
+              Kolkata, India
+              <br />
+              Rajshahi, Bangladesh
             </p>
           </div>
-        </div>
 
-        {/* Navigation Links */}
-        <div className="flex flex-wrap gap-6 justify-center mt-6 md:mt-0">
-          {["Home", "Projects", "About", "Contact"].map((item, index) => (
-            <motion.a
-              key={index}
-              href={`#${item.toLowerCase()}`}
-              className={`text-lg transition duration-300 ease-in-out transform ${
-                darkMode ? "text-gray-300" : "text-gray-800"
-              }`}
-              whileHover={{ scale: 1.1, color: "#a855f7" }}
-            >
-              {item}
-            </motion.a>
-          ))}
-        </div>
-      </div>
+          <div className="flex items-start gap-3 mb-4">
+            <FaEnvelope className="text-xl text-purple-400" />
+            <p>rudra.phymos@gmail.com</p>
+          </div>
 
-      {/* Bottom Section */}
-      <div className="border-t border-gray-700 mt-8 pt-6">
-        <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p
-            className={`text-sm ${
-              darkMode ? "text-gray-500" : "text-gray-700"
+          <div className="flex items-start gap-3 mb-6">
+            <FaPhone className="text-xl text-purple-400" />
+            <p>+91 74393 61200</p>
+          </div>
+
+          {/* WhatsApp Box */}
+          <div
+            className={`rounded-2xl p-5 shadow-lg border ${
+              isDark ? "bg-[#0a0f29] border-[#1f2937]" : "bg-white border-gray-200"
             }`}
           >
-            © {new Date().getFullYear()} Rudra Protap Chakraborty. All rights
-            reserved.
-          </p>
-          <div className="flex gap-6">
-            {["Terms of Use", "Privacy Policy"].map((item, index) => (
-              <motion.a
-                key={index}
-                href={`#${item.replace(/\s+/g, "").toLowerCase()}`}
-                className={`text-sm ${
-                  darkMode ? "text-gray-400" : "text-gray-600"
-                }`}
-                whileHover={{
-                  scale: 1.05,
-                  color: "#a855f7",
-                  textShadow: "0px 0px 8px rgba(168, 85, 247, 0.7)",
-                }}
-              >
-                {item}
-              </motion.a>
-            ))}
+            <p className="text-sm opacity-70 mb-1">WhatsApp Anytime</p>
+
+            <div className="flex items-center gap-4">
+              <FaPhone className="text-3xl text-purple-500" />
+              <div>
+                <h2 className="text-lg font-bold">+91 74393 61200</h2>
+                <p className="text-sm opacity-70">Available 24/7</p>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* COLUMN 2: LINKS */}
+        <div>
+          <h2 className="text-xl font-bold mb-5">Useful Links</h2>
+
+          <ul className="space-y-3">
+            {["Home", "About", "Skills", "Education", "Projects", "Contact"].map(
+              (item, i) => (
+                <li key={i}>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="hover:text-purple-400 transition text-[15px]"
+                  >
+                    {item}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+
+        {/* COLUMN 3: SOCIAL */}
+        <div>
+          <h2 className="text-xl font-bold mb-5">Follow Me</h2>
+
+          <div className="flex flex-col gap-4 text-[15px]">
+            <a
+              href="https://www.facebook.com/rudraprotapchakraborty/"
+              target="_blank"
+              className="flex items-center gap-3 hover:text-purple-400 transition"
+            >
+              <FaFacebook className="text-xl" /> Facebook
+            </a>
+
+            <a
+              href="https://github.com/rudraprotapchakraborty"
+              target="_blank"
+              className="flex items-center gap-3 hover:text-purple-400 transition"
+            >
+              <FaGithub className="text-xl" /> GitHub
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/rudraprotapchakraborty/"
+              target="_blank"
+              className="flex items-center gap-3 hover:text-purple-400 transition"
+            >
+              <FaLinkedin className="text-xl" /> LinkedIn
+            </a>
+          </div>
+        </div>
+
+        {/* COLUMN 4: CONTACT FORM */}
+        <motion.form
+          onSubmit={handleSubmit}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className={`p-6 rounded-2xl border shadow-md ${
+            isDark ? "bg-[#0f101d]/60 border-[#1e2030]" : "bg-white border-gray-200"
+          }`}
+        >
+          <h3 className="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-300">
+            Quick Message
+          </h3>
+
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            required
+            placeholder="Your Email"
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            className={`w-full p-3 rounded-xl border mb-3 ${
+              isDark ? "bg-[#141523] border-[#303244] text-white" : "bg-gray-50 border-gray-300"
+            }`}
+          />
+
+          <textarea
+            name="message"
+            rows="4"
+            required
+            placeholder="Message"
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            className={`w-full p-3 rounded-xl border mb-4 ${
+              isDark ? "bg-[#141523] border-[#303244] text-white" : "bg-gray-50 border-gray-300"
+            }`}
+          />
+
+          <button
+            type="submit"
+            className="w-full p-3 rounded-xl font-semibold text-white 
+              bg-gradient-to-r from-purple-600 to-pink-500 hover:opacity-90 transition"
+          >
+            {sent ? "Sent ✔" : "Send"}
+          </button>
+        </motion.form>
+      </div>
+
+      {/* COPYRIGHT */}
+      <div
+        className={`mt-14 pt-6 border-t text-center text-sm ${
+          isDark ? "border-gray-700 text-gray-400" : "border-gray-300 text-gray-600"
+        }`}
+      >
+        © {new Date().getFullYear()} Rudra Protap Chakraborty — All rights reserved.
       </div>
     </footer>
   );

@@ -1,74 +1,128 @@
-import { useContext } from 'react';
-import { ThemeContext } from '../context/ThemeContext';
-import { motion } from 'framer-motion';
-import { FaGraduationCap } from 'react-icons/fa';
+import { useContext } from "react";
+import { ThemeContext } from "../context/ThemeContext";
+import { motion } from "framer-motion";
+
+import GlowOrb from "../components/GlowOrb";
+
+// School Logo
+import amity from "../assets/icons/amity.png";
 
 const Education = () => {
-    const { darkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
 
-    const cardVariants = {
-        hidden: { opacity: 0, scale: 0.8, y: 30 },
-        visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.8 } },
-        hover: { scale: 1.05, rotate: 1, transition: { duration: 0.3 } }
-    };
+  // Slide-up
+  const fade = {
+    hidden: { opacity: 0, y: 40 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.65, ease: "easeOut" },
+    },
+  };
 
-    return (
-        <section
-            id="education"
-            className={`${
-                darkMode ? 'bg-black bg-opacity-80 text-gray-300' : 'bg-white text-gray-800'
-            } backdrop-blur-md py-16 px-6 md:px-12`}
+  const titleFade = {
+    hidden: { opacity: 0, y: 25 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.7, ease: "easeOut" },
+    },
+  };
+
+  // Card style
+  const cardBase =
+    "relative rounded-[26px] p-12 w-full max-w-5xl min-h-[320px] shadow-md border overflow-hidden flex items-center justify-between gap-10";
+
+  const cardColor = "bg-[#fdebef] border-[#f6d7df]";
+
+  return (
+    <section
+      id="education"
+      className={`relative py-28 min-h-screen px-8 lg:px-24 transition-colors duration-700 ${
+        darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf3ff]"
+      }`}
+    >
+      {/* Glow */}
+      <GlowOrb
+        className="absolute top-[-180px] right-[-140px] w-[360px] h-[360px] blur-[220px] opacity-60"
+        color="#b57aff"
+      />
+
+      {/* Title */}
+      <motion.h1
+        variants={titleFade}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        className="text-5xl font-extrabold text-center mb-20
+        bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff]
+        text-transparent bg-clip-text"
+      >
+        Education
+      </motion.h1>
+
+      {/* Centered Horizontal Card */}
+      <motion.div
+        className="w-full flex justify-center"
+        variants={fade}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
+        <motion.div
+          className={`${cardBase} ${cardColor}`}
+          whileHover={{ y: -6 }}
         >
-            <div className="container mx-auto text-center">
-                <motion.h2
-                    className={`text-4xl font-bold mb-10 $ {
-                        darkMode ? 'text-purple-400' : 'text-purple-600'
-                    }`}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    Education
-                </motion.h2>
+          {/* Glow Sweep */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "linear-gradient(90deg, transparent, rgba(255,255,255,0.50), transparent)",
+              filter: "blur(18px)",
+            }}
+            animate={{ x: ["-120%", "120%"] }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    {[  
-                        { school: "Amity University, Kolkata", degree: "BSc Physics (Honours with Research)", year: "2024-2028" },
-                        { school: "Metropolitan College, Rajshahi", degree: "HSC", year: "2022" },
-                        { school: "Govt. Laboratory High School, Rajshahi", degree: "SSC", year: "2020" }
-                    ].map((edu, index) => (
-                        <motion.div
-                            key={index}
-                            className={`max-w-md w-full p-8 rounded-2xl shadow-lg transition-all backdrop-blur-lg border border-gray-500/30 $ {
-                                darkMode ? 'bg-gray-900/50 text-white' : 'bg-gray-200/50 text-black'
-                            }`}
-                            variants={cardVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            whileHover="hover"
-                            viewport={{ once: true, amount: 0.5 }}
-                        >
-                            <div className="flex justify-center items-center mb-6">
-                                <FaGraduationCap className="text-6xl text-purple-500 animate-pulse" />
-                            </div>
-                            
-                            <h3 className="text-2xl font-semibold mb-2">
-                                {edu.school}
-                            </h3>
-                            
-                            <p className="text-lg mb-3 text-gray-400">
-                                {edu.degree}
-                            </p>
-                            
-                            <p className="text-sm text-gray-500">
-                                <strong>Year:</strong> {edu.year}
-                            </p>
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        </section>
-    );
+          {/* LEFT — TEXT */}
+          <div className="flex-1 relative z-10">
+            <h3 className="text-3xl font-bold mb-3 text-[#3b2b7f]">
+              Amity University, Kolkata
+            </h3>
+
+            <p className="text-lg mb-1 text-gray-800">
+              BSc Physics (Honours with Research)
+            </p>
+
+            {/* YEAR */}
+            <p className="text-[15px] font-semibold text-gray-700 mb-4">
+              2024–2028
+            </p>
+
+            <p className="text-[15px] leading-[1.55] text-gray-700">
+              Strengthened analytical reasoning, scientific problem-solving,
+              and built solid foundations in mathematics and research-based
+              physics studies.
+            </p>
+          </div>
+
+          {/* RIGHT — LOGO */}
+          <div className="w-[170px] h-[170px] flex items-center justify-center relative z-10">
+            <img
+              src={amity}
+              alt="Amity University"
+              className="w-full h-full object-contain drop-shadow-lg"
+            />
+          </div>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
 };
 
 export default Education;

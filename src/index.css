@@ -2,10 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body, html {
+/* body, html {
     cursor: none;
 }
 
 button, a, .hover-target, input[type="checkbox"], label, input, textarea {
     cursor: none !important;
+} */
+
+html, body {
+  overflow-x: hidden !important;
 }

@@ -1,140 +1,205 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaFacebook } from "react-icons/fa";
+import GlowOrb from "../components/GlowOrb";
 import "../index.css";
+
+import photo from "../assets/photo.png";
 
 const Hero = () => {
   const { darkMode } = useContext(ThemeContext);
+  const heroRef = useRef(null);
 
-  // Animation Configurations
-  const fadeInUp = (delay = 0) => ({
-    initial: { opacity: 0, y: 50 },
+  const fade = (delay = 0) => ({
+    initial: { opacity: 0, y: 40 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 1, delay },
+    transition: { duration: 1, delay, ease: "easeOut" },
   });
 
   return (
-    <div
-      id="home"
-      className={`flex flex-col lg:flex-row justify-center items-center gap-12 lg:gap-32 min-h-screen px-6 lg:px-16 py-16 relative ${
-        darkMode ? "bg-black" : "bg-white"
-      }`}
+    <section
+      ref={heroRef}
+      className={`
+        relative min-h-screen w-full 
+        overflow-visible
+        flex flex-col lg:flex-row 
+        items-center justify-center 
+        gap-10 lg:gap-16
+        px-6 lg:px-16 pt-32 pb-40
+        transition-all duration-700
+        ${darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf5ff] text-gray-900"}
+      `}
     >
-      {/* Social Media Links on Left */}
-      <motion.div
-        className="absolute left-6 lg:left-16 top-1/2 transform -translate-y-1/2 flex flex-col items-center space-y-4"
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1 }}
-      >
-        <a
-          href="https://github.com/rudraprotapchakraborty"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white text-purple-900 dark:text-white dark:bg-purple-900 dark:hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
-          aria-label="GitHub"
-        >
-          <FaGithub className="text-xl" />
-        </a>
-        <a
-          href="https://linkedin.com/in/rudraprotapchakraborty"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white text-purple-900 dark:text-white dark:bg-purple-900 dark:hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
-          aria-label="LinkedIn"
-        >
-          <FaLinkedin className="text-xl" />
-        </a>
-        <a
-          href="https://x.com/rudraprotapc"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white text-purple-900 dark:text-white dark:bg-purple-900 dark:hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
-          aria-label="Twitter"
-        >
-          <FaSquareXTwitter className="text-xl" />
-        </a>
-        <a
-          href="https://facebook.com/rudraprotapchakraborty1"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-white text-purple-900 dark:text-white dark:bg-purple-900 dark:hover:bg-purple-700 p-3 rounded-full shadow-lg transition-colors"
-          aria-label="Facebook"
-        >
-          <FaFacebook className="text-xl" />
-        </a>
-      </motion.div>
 
-      {/* Text Section */}
+      {/* PURPLE SOFT GRID */}
       <div
-        className={`max-w-lg space-y-6 text-center lg:text-left ${
-          darkMode ? "text-white" : "text-black"
-        }`}
-      >
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.2] mix-blend-soft-light z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(138,43,226,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(138,43,226,0.15) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* PURPLE BLOBS */}
+      <GlowOrb
+        className="absolute top-[-180px] left-[-140px] w-[360px] h-[360px] blur-[180px] opacity-60 z-0"
+        color="#C084FC"
+      />
+      <GlowOrb
+        className="absolute bottom-[-200px] right-[-160px] w-[420px] h-[420px] blur-[200px] opacity-60 z-0"
+        color="#A855F7"
+      />
+
+      {/* FLOATING CARDS */}
+      <>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden lg:flex absolute left-10 top-[30%] z-20
+                     px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md
+                     text-lg font-semibold bg-purple-500/20 text-purple-100"
+        >
+          {"</>"}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: [-8, 8, -8] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden lg:flex absolute right-10 top-[48%] z-20
+                     px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md
+                     text-xl bg-purple-500/20 text-purple-100"
+        >
+          ⭐
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: [0, -8, 0] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden lg:flex absolute bottom-32 left-10 z-20
+                     items-center gap-3 rounded-2xl shadow-xl
+                     py-4 px-6 text-sm font-semibold
+                     bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] text-white"
+        >
+          🚀 Portfolio Ready
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: [1, 1.05, 1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden lg:flex absolute right-[26%] top-[26%] z-20
+                     w-12 h-12 rounded-full shadow-lg backdrop-blur-md
+                     items-center justify-center font-bold
+                     bg-purple-600/20 text-purple-300"
+        >
+          JS
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: [0, -6, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden lg:flex absolute right-[20%] bottom-28 z-20
+                     px-4 py-2 rounded-full shadow-lg backdrop-blur-md
+                     text-sm bg-purple-600/20 text-purple-200"
+        >
+          ✨ Smooth UI
+        </motion.div>
+      </>
+
+      {/* LEFT TEXT (PURPLE GRADIENT) */}
+      <div className="max-w-xl text-center lg:text-left z-20">
         <motion.h1
-          className={`text-5xl font-extrabold ${
-            darkMode ? "text-purple-300" : "text-purple-700"
-          }`}
-          {...fadeInUp()}
+          {...fade(0)}
+          className="text-5xl lg:text-6xl font-extrabold leading-tight"
         >
-          Hi, I am{" "}
-          <span className="text-purple-400">Rudra Protap Chakraborty</span>
+          Build
+          <br />
+          <span className="relative inline-block">
+            <span className="absolute inset-0 bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] blur-md opacity-40 -z-10"></span>
+            <span className="bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-transparent bg-clip-text">
+              Stunning Web Experiences
+            </span>
+          </span>
         </motion.h1>
-        <motion.h2
-          className={`text-3xl ${darkMode ? "text-gray-400" : "text-gray-700"}`}
-          {...fadeInUp(0.2)}
-        >
-          MERN Stack Developer
-        </motion.h2>
+
         <motion.p
-          className={`text-gray-300 leading-relaxed ${
+          {...fade(0.3)}
+          className={`mt-6 text-lg leading-relaxed ${
             darkMode ? "text-gray-300" : "text-gray-700"
           }`}
-          {...fadeInUp(0.4)}
         >
-          I specialize in creating visually engaging and highly responsive web
-          interfaces using the latest technologies. With a keen eye for detail
-          and a passion for clean design, I craft user-friendly digital
-          experiences that drive results.
+          Hi, I'm Rudra — a MERN Stack Developer focused on building fast,
+          beautiful, and modern web apps with clean code & pixel-perfect UI.
         </motion.p>
-        <a
+
+        {/* PURPLE BUTTON LIKE PH */}
+        <motion.a
+          {...fade(0.6)}
+          href="https://drive.google.com/file/d/11ZR-I9gVXImioNsfBlrSM34WbRAfdqCA/view?usp=sharing"
           target="_blank"
-          href="https://drive.google.com/file/d/1wqVSRQ6Jhh212Mv8Ztrde-5dOXRGf-sk/view?usp=sharing"
-          download
-          className="inline-block bg-purple-600 text-white px-8 py-3 mt-6 rounded-full shadow-lg hover:bg-purple-500 hover:-translate-y-2 transition-transform duration-300"
+          className="inline-block mt-10 px-12 py-4 text-lg font-semibold rounded-full
+                     bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-white
+                     shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
         >
           Download Resume
-        </a>
+        </motion.a>
       </div>
 
-      {/* Image Section with Morphing Hard Border */}
-      <div className="relative w-60 h-60 lg:w-80 lg:h-80 flex justify-center items-center">
-        {/* Morphing Hard Border */}
+      {/* IMAGE FRAME */}
+      <motion.div
+        {...fade(0.5)}
+        className="relative w-[260px] h-[260px] lg:w-[320px] lg:h-[320px] flex justify-center z-20"
+      >
         <motion.div
-          className="absolute w-[110%] h-[110%] border-[3px] border-purple-500"
-          animate={{
-            scale: [1, 1.05, 1],
-            rotate: [0, 8, -8, 0],
-            borderRadius: ["50%", "44%", "56%", "50%"],
-          }}
-          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          style={{
-            background: "transparent",
-          }}
-        ></motion.div>
+          className="absolute inset-0 rounded-3xl shadow-xl backdrop-blur-md bg-purple-300/10"
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <img
+          src={photo}
+          alt="Rudra"
+          className="w-full h-full object-cover rounded-3xl shadow-xl relative"
+        />
+      </motion.div>
 
-        {/* Profile Image */}
-        <button>
-          <img
-            src="https://i.ibb.co/7Jn0DKtF/photo-rudra-protap-chakraborty-reduced.jpg"
-            alt="Rudra Protap Chakraborty"
-            className="w-56 h-56 lg:w-72 lg:h-72 rounded-full object-cover border-4 dark:border-white border-purple-500 shadow-lg relative"
-          />
-        </button>
-      </div>
-    </div>
+{/* PURPLE CURVED WAVE – FULL WIDTH + STRONGER PURPLE */}
+<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-[1] pointer-events-none">
+  <svg
+    viewBox="0 0 1440 450"
+    className="w-full h-[200px] md:h-[260px] lg:h-[300px]"
+    preserveAspectRatio="none"
+  >
+    <defs>
+      <linearGradient id="phSoftPurpleWave" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#E9D5FF" />
+        <stop offset="40%" stopColor="#D8B4FE" />
+        <stop offset="100%" stopColor="#C084FC" />
+      </linearGradient>
+    </defs>
+
+    <path
+      fill="url(#phSoftPurpleWave)"
+      d="
+        M0,300
+        C200,260 400,230 600,240
+        C800,250 1000,300 1200,310
+        C1320,320 1440,330 1440,330
+        L1440,450
+        L0,450
+        Z
+      "
+    />
+  </svg>
+</div>
+
+
+    </section>
   );
 };
 

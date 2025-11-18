@@ -1,134 +1,171 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { FaBars, FaTimes, FaSun, FaMoon } from "react-icons/fa";
 import { HashLink } from "react-router-hash-link";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState("");
-  const [scrolling, setScrolling] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const { darkMode, toggleDarkMode } = useContext(ThemeContext);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolling(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const links = [
-    "home",
-    "about",
-    "skills",
-    "education",
-    "projects",
-    "contact",
-  ].map((link) => (
-    <li key={link} className="text-lg capitalize">
-      <HashLink
-        to={`/#${link}`}
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Logo behavior
+  const handleLogoClick = () => {
+    if (location.pathname === "/") {
+      scrollToTop();
+    } else {
+      navigate("/");
+      setTimeout(() => scrollToTop(), 200);
+    }
+  };
+
+const links = ["home", "about", "skills", "education", "projects", "contact"].map(
+  (link) => (
+    <li key={link}>
+      <button
         onClick={() => {
+          if (link === "home") {
+            // SAME BEHAVIOR AS LOGO BUTTON
+            
+            if (location.pathname !== "/") {
+              // Go to home page
+              window.location.href = "/";
+            } else {
+              // Already in home, just scroll up
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            setActiveLink(link);
+            setIsMenuOpen(false);
+            return;
+          }
+
+          // For other links (smooth scroll to section)
+          const section = document.querySelector(`#${link}`);
+          if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+          } else {
+            // If coming from other page
+            window.location.href = `/#${link}`;
+          }
+
           setActiveLink(link);
           setIsMenuOpen(false);
         }}
-        className={`${
-          activeLink === link
-            ? "text-purple-500"
-            : "text-gray-700 dark:text-gray-300"
-        } hover:text-purple-400 dark:hover:text-purple-300 transition-transform duration-200 ease-in-out transform hover:scale-105`}
+        className={`
+          px-3 py-2 text-sm font-semibold tracking-wide transition-all
+          ${
+            activeLink === link
+              ? "text-[#A855F7]"
+              : darkMode
+              ? "text-gray-300"
+              : "text-gray-800"
+          }
+          hover:text-[#A855F7]
+        `}
       >
-        {link}
-      </HashLink>
+        {link.toUpperCase()}
+      </button>
     </li>
-  ));
+  )
+);
+
 
   return (
     <nav
-      className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 backdrop-blur-md bg-white dark:bg-gray-900 bg-opacity-80 shadow-md transition-all duration-300 w-11/12 md:px-8 md:py-3 px-2 py-1 rounded-full`}
+      className={`
+        fixed top-0 left-0 w-full z-50 transition-all duration-500 border-b
+        ${
+          darkMode
+            ? "bg-[#030617] bg-gradient-to-b from-[#040718] via-[#060B20] to-[#030617] border-[#0f1120]"
+            : "bg-white/90 backdrop-blur-xl border-gray-200 shadow-sm"
+        }
+      `}
     >
-      <div className="flex justify-between items-center px-4">
-        {/* Logo */}
-        <NavLink className="text-2xl font-bold text-purple-500">
-          <span className="text-purple-700">&lt;R</span>udra
-          <span className="text-purple-700">/&gt;</span>
-        </NavLink>
+      <div className="max-w-full mx-auto flex justify-between items-center px-14 py-4">
 
-        {/* Desktop Links */}
-        <ul className="hidden md:flex gap-8">{links}</ul>
+        {/* Logo (fixed behavior) */}
+        <button onClick={handleLogoClick} className="flex items-center gap-2">
+          <img className="w-10" src="/favicon.png" alt="" />
+
+          <div className="flex flex-col items-start leading-[1.05]">
+            <span
+              className={`text-lg font-bold ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Rudra Protap
+            </span>
+            <span
+              className={`text-lg font-bold -mt-2 ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
+              Chakraborty
+            </span>
+          </div>
+        </button>
+
+        {/* Desktop Menu */}
+        <ul className="hidden md:flex items-center gap-8">{links}</ul>
 
         {/* Right Section */}
         <div className="flex items-center gap-4">
-          {/* Dark Mode Toggle */}
-          <div className="flex items-center">
-            <label
-              htmlFor="darkModeToggle"
-              className="relative inline-block w-12 h-6"
-            >
-              <input
-                type="checkbox"
-                id="darkModeToggle"
-                checked={darkMode}
-                onChange={toggleDarkMode}
-                className="opacity-0 w-0 h-0 absolute"
-              />
-              <span className="slider block w-12 h-6 bg-gray-300 dark:bg-gray-600 rounded-full">
-                <span
-                  className={`dot block w-6 h-6 bg-white rounded-full shadow-md transform transition-transform ${
-                    darkMode ? "translate-x-6" : "translate-x-0"
-                  }`}
-                >
-                  {/* The icons will slide with the dot */}
-                  <span
-                    className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                      darkMode ? "opacity-0" : "opacity-100"
-                    }`}
-                  >
-                    <FaSun className="text-purple-500" />
-                  </span>
-                  <span
-                    className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${
-                      darkMode ? "opacity-100" : "opacity-0"
-                    }`}
-                  >
-                    <FaMoon className="text-purple-500" />
-                  </span>
-                </span>
-              </span>
-            </label>
-          </div>
-
-          {/* Download Resume Button */}
-          <a
-          target="_blank"
-            href="https://drive.google.com/file/d/1wqVSRQ6Jhh212Mv8Ztrde-5dOXRGf-sk/view?usp=sharing"
-            className="hidden sm:block bg-purple-500 text-white px-4 py-2 rounded-full shadow-lg hover:bg-purple-600 dark:hover:bg-purple-500 transition-transform duration-300 transform hover:scale-105"
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className={`p-2 rounded-xl transition-all text-xl ${
+              darkMode ? "text-yellow-300" : "text-gray-800"
+            }`}
           >
-            Download Resume
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+
+          {/* Resume Button */}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://drive.google.com/file/d/11ZR-I9gVXImioNsfBlrSM34WbRAfdqCA/view?usp=sharing"
+            className="hidden md:block px-5 py-2 rounded-xl text-white font-semibold 
+              bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] shadow transition-all"
+          >
+            Resume
           </a>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-700 dark:text-gray-300 p-2"
+            className={`md:hidden text-2xl ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
           >
-            {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <ul className="md:hidden absolute top-12 right-0 w-3/5 bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col gap-4 items-center text-lg rounded-lg">
+        <ul
+          className={`
+            md:hidden flex flex-col gap-6 px-6 py-6 border-b
+            ${
+              darkMode
+                ? "bg-[#030617] border-[#0f1120]"
+                : "bg-white border-gray-200"
+            }
+          `}
+        >
           {links}
-          <a
-          target="_blank"
-            href="https://drive.google.com/file/d/1wqVSRQ6Jhh212Mv8Ztrde-5dOXRGf-sk/view?usp=sharing"
-            className="block text-base bg-purple-500 text-white px-2 py-1 rounded-full shadow-lg hover:bg-purple-600 dark:hover:bg-purple-500 transition-transform duration-300 transform hover:scale-105"
-          >
-            Download Resume
-          </a>
         </ul>
       )}
     </nav>

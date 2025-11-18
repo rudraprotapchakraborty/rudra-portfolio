@@ -1,40 +1,132 @@
+import project0 from '../assets/digital-wallet-system.png';
 import project1 from '../assets/hotel-management.png';
 import project2 from '../assets/food-sharing.png';
 import project3 from '../assets/movie-portal.png';
 
+// ICONS
+import reactIcon from "../assets/icons/react.png";
+import nodeIcon from "../assets/icons/node.png";
+import mongoIcon from "../assets/icons/mongodb.png";
+import firebaseIcon from "../assets/icons/firebase.png";
+import tailwindIcon from "../assets/icons/tailwind.png";
+import expressIcon from "../assets/icons/express.png";
+
 const projects = [
+  {
+    id: 0,
+    name: 'Digital Wallet System',
+    image: project0,
+
+    longDescription:
+      'A full-featured digital wallet system supporting User, Agent, and Admin roles. Users can transfer money, cash-in, cash-out, check transaction history, manage accounts, and perform wallet operations. Agents handle user transactions, while Admins manage system-wide controls, analytics, and security. Built with performance, data accuracy, and secure authentication in mind.',
+
+    techCards: [
+      {
+        name: "React",
+        icon: reactIcon,
+        description: "Component-based UI, reusable layouts, routing, state handling, and optimized rendering.",
+      },
+      {
+        name: "Node.js",
+        icon: nodeIcon,
+        description: "Backend runtime for API requests, authentication, caching, and business logic.",
+      },
+      {
+        name: "Express.js",
+        icon: expressIcon,
+        description: "Lightweight backend routing, controllers, JWT authentication, validation layers.",
+      },
+      {
+        name: "MongoDB",
+        icon: mongoIcon,
+        description: "Database for storing wallet transactions, user accounts, logs, and permissions.",
+      },
+      {
+        name: "Tailwind CSS",
+        icon: tailwindIcon,
+        description: "Modern utility-first styling for responsive layouts and clean interface design.",
+      },
+    ],
+
+    liveLink: 'https://digital-wallet-system-frontend-topaz.vercel.app/',
+    githubLink: 'https://github.com/rudraprotapchakraborty/digital-wallet-system-frontend',
+
+    challenges:
+      'Integrating multi-role authorization securely, optimizing database queries for transaction logs, and syncing real-time wallet balance updates without UI delays.',
+    improvements:
+      'Will include biometric login, withdrawal PIN system, budgeting tools, analytics dashboard, and QR-based instant payments.',
+  },
+
   {
     id: 1,
     name: 'Hotel Management System',
     image: project1,
-    description: 'A dynamic website promoting eco-friendly travel destinations and sustainable adventure tourism. The site offers users the opportunity to explore various eco-tourism destinations, read informative blogs, and book eco-friendly activities. The platform also features an interactive map to explore destinations by region and type of adventure, including hiking, cycling, and wildlife watching, all aimed at promoting sustainable tourism and eco-friendly travel practices.',
-    technologies: ['Next.js', 'GraphQL', 'Tailwind CSS', 'MongoDB', 'Mapbox API'],
+
+    longDescription:
+      'A complete hotel management system featuring bookings, meal plans, reviews, user dashboards, and admin analytics. Built with scalable architecture and secure authentication while maintaining a clean UX. Users can book meals, manage accounts, view history, and interact with staff. Admins can track revenue, bookings, and manage room availability.',
+
+    techCards: [
+      { name: "React", icon: reactIcon, description: "Reusable UI, routing, context, hooks, and dynamic page rendering." },
+      { name: "Node.js", icon: nodeIcon, description: "Backend APIs for booking logic, meal plans, categories, payments." },
+      { name: "Express.js", icon: expressIcon, description: "Server routes, validation, role-based access control." },
+      { name: "MongoDB", icon: mongoIcon, description: "Stores booking data, user accounts, meal plans, and reviews." },
+      { name: "Tailwind CSS", icon: tailwindIcon, description: "Responsive UI, consistent design across all components." },
+    ],
+
     liveLink: 'https://hotel-management-25cdc.web.app/',
     githubLink: 'https://github.com/rudraprotapchakraborty/hotel-management-client',
-    challenges: 'One of the major challenges was integrating the interactive map functionality with Mapbox API, ensuring smooth performance and accurate data display for destinations. Additionally, optimizing the website for fast loading times while dealing with rich media content, including images and maps, was a technical challenge. Maintaining a clean and intuitive user interface with a wealth of information proved difficult, but was crucial to the success of the website.',
-    improvements: 'Future iterations will add user-generated reviews for each travel destination to foster a more community-driven platform. Dark mode will be added for an improved user experience during nighttime browsing. A recommendation engine based on user preferences and past activity will be developed to suggest destinations. Additionally, plans are in place to integrate a booking system that allows users to directly reserve eco-friendly accommodations and activities.',
+
+    challenges:
+      'Role-based access control, dynamic meal/room categorizations, and handling large booking data efficiently.',
+    improvements:
+      'Admin-level reports, payment gateway integration, multi-room bookings, and automated reminders will be added.',
   },
+
   {
     id: 2,
     name: 'Food Sharing Website',
     image: project2,
-    description: 'A social platform designed to reduce food waste by connecting individuals, restaurants, and businesses to share surplus food. Users can list food items they wish to donate or share, search available food within their vicinity, and connect with others to help reduce environmental impact while aiding local communities in need.',
-    technologies: ['React', 'Firebase', 'Node.js', 'Tailwind CSS', 'Express.js', 'Google Maps API'],
+
+    longDescription:
+      'A food-sharing platform to reduce waste by connecting donors with recipients. Users can donate food, request items, view realtime availability, and connect through an intuitive UI. Uses Firebase for authentication and real-time database updates, ensuring live availability of food posts.',
+
+    techCards: [
+      { name: "React", icon: reactIcon, description: "Interactive UI with dynamic components and state management." },
+      { name: "Firebase", icon: firebaseIcon, description: "Authentication, real-time updates, cloud storage for posts." },
+      { name: "Node.js", icon: nodeIcon, description: "Secondary backend for additional APIs where needed." },
+      { name: "Tailwind CSS", icon: tailwindIcon, description: "Mobile-first design for all age groups and accessibility." },
+      { name: "Express.js", icon: expressIcon, description: "API routing and middleware support for future scaling." },
+    ],
+
     liveLink: 'https://food-sharing-5c75a.web.app/',
     githubLink: 'https://github.com/rudraprotapchakraborty/food-sharing-client',
-    challenges: 'The major challenges included implementing real-time updates of available food items with Firebase, ensuring secure user authentication, and optimizing the search functionality with location-based filtering using Google Maps API. Another challenge was building an intuitive UI/UX to cater to all age groups while maintaining accessibility standards.',
-    improvements: 'Future improvements include the development of a mobile app for easier access, further UI/UX optimizations, integrating AI to predict food expiry based on listed items, implementing a community-driven feedback system for food donors and recipients, and enhancing data security protocols with two-factor authentication (2FA) for users.',
+
+    challenges:
+      'Realtime sync with Firebase, secure authentication, geolocation-based filtering, and an accessible design.',
+    improvements:
+      'Mobile app version, AI food expiry predictions, user badges, donation analytics, and 2FA support.',
   },
+
   {
     id: 3,
     name: 'Movie Website',
     image: project3,
-    description: 'A feature-rich movie database and review site where users can browse, search, and filter movies. It allows users to leave ratings, write reviews, and get personalized movie recommendations based on their preferences. The site also pulls real-time movie data from the TMDB API, showcasing the latest films, trailers, and ratings. Users can create an account to save their favorite movies and track their movie-watching history.',
-    technologies: ['React', 'Redux', 'TMDB API', 'Bootstrap', 'React Router', 'Axios'],
+
+    longDescription:
+      'A full movie discovery and review platform with search, filters, ratings, user accounts, watchlists, and detailed movie pages. Uses TMDB API to fetch real-time data including trending movies, cast, ratings, and trailers. Includes Redux for optimized state management.',
+
+    techCards: [
+      { name: "React", icon: reactIcon, description: "Dynamic UI for movies, ratings, reviews, pages and search filters." },
+      { name: "Axios", icon: expressIcon, description: "Optimized API calls, error handling, and data fetching." },
+    ],
+
     liveLink: 'https://movie-portal-c66f2.web.app/',
     githubLink: 'https://github.com/rudraprotapchakraborty/movie-portal-client',
-    challenges: 'One of the primary challenges was handling large API responses from TMDB API efficiently and ensuring the responsiveness of the UI across all devices. The implementation of a smooth and fast search/filter system with pagination was also challenging, particularly in maintaining state consistency with Redux and optimizing data fetching for quicker loading times.',
-    improvements: 'In future versions, the recommendation algorithm will be enhanced to incorporate machine learning models based on user behavior and ratings. A watchlist feature will be added so users can save movies to watch later. Additional features like social media integration, allowing users to share movie reviews and ratings, will also be integrated, along with an advanced admin panel for content management.',
+
+    challenges:
+      'Handling large TMDB API responses, optimizing pagination, and managing UI performance during heavy fetch operations.',
+    improvements:
+      'Watchlist improvements, ML-based recommendations, social sharing, and an admin CMS dashboard.',
   },
 ];
 
