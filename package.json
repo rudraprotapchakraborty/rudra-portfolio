@@ -20,6 +20,7 @@
     "localforage": "^1.10.0",
     "lottie-react": "^2.4.0",
     "lottie-web": "^5.12.2",
+    "lucide-react": "^0.554.0",
     "match-sorter": "^8.0.0",
     "motion": "^11.15.0",
     "prop-types": "^15.8.1",
