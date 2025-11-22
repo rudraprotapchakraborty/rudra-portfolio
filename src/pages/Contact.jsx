@@ -67,7 +67,6 @@ const Contact = () => {
               <div>
                 <h3 className="text-lg font-semibold">Location</h3>
                 <p className="text-sm opacity-80">Kolkata, India</p>
-                <p className="text-sm opacity-80">Rajshahi, Bangladesh</p>
               </div>
             </div>
 
@@ -98,7 +97,7 @@ const Contact = () => {
               <IoMail className="text-3xl text-purple-500 mt-1" />
               <div>
                 <h3 className="text-lg font-semibold">Email</h3>
-                <p className="text-sm opacity-80">rudra.phymos@gmail.com</p>
+                <p className="text-sm opacity-80">rudra@rudraprotap.com</p>
               </div>
             </div>
 

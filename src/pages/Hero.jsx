@@ -1,3 +1,4 @@
+// Updated Hero component with visible floating cards in light mode
 import { useContext, useRef } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
@@ -16,6 +17,9 @@ const Hero = () => {
     transition: { duration: 1, delay, ease: "easeOut" },
   });
 
+  const lightCard = "bg-white/70 border border-gray-300 text-gray-900 shadow-xl";
+  const darkCard = "bg-white/10 border border-white/10 text-purple-100 shadow-xl";
+
   return (
     <section
       ref={heroRef}
@@ -30,8 +34,7 @@ const Hero = () => {
         ${darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf5ff] text-gray-900"}
       `}
     >
-
-      {/* PURPLE SOFT GRID */}
+      {/* GRID BACKGROUND */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.2] mix-blend-soft-light z-0"
@@ -42,7 +45,7 @@ const Hero = () => {
         }}
       />
 
-      {/* PURPLE BLOBS */}
+      {/* BLOBS */}
       <GlowOrb
         className="absolute top-[-180px] left-[-140px] w-[360px] h-[360px] blur-[180px] opacity-60 z-0"
         color="#C084FC"
@@ -54,65 +57,70 @@ const Hero = () => {
 
       {/* FLOATING CARDS */}
       <>
+        {/* </> CARD */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: [0, -10, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:flex absolute left-10 top-[30%] z-20
-                     px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md
-                     text-lg font-semibold bg-purple-500/20 text-purple-100"
+          className={`hidden lg:flex absolute left-10 top-[30%] z-20 px-6 py-4 rounded-2xl backdrop-blur-md font-semibold text-lg shadow-xl ${
+            darkMode ? darkCard : lightCard
+          }`}
         >
           {"</>"}
         </motion.div>
 
+        {/* STAR CARD */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: [-8, 8, -8] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:flex absolute right-10 top-[48%] z-20
-                     px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md
-                     text-xl bg-purple-500/20 text-purple-100"
+          className={`hidden lg:flex absolute right-10 top-[48%] z-20 px-6 py-4 rounded-2xl backdrop-blur-md text-xl shadow-xl ${
+            darkMode ? darkCard : lightCard
+          }`}
         >
           ⭐
         </motion.div>
 
+        {/* PORTFOLIO READY TAG */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: [0, -8, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:flex absolute bottom-32 left-10 z-20
-                     items-center gap-3 rounded-2xl shadow-xl
-                     py-4 px-6 text-sm font-semibold
-                     bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] text-white"
+          className={`hidden lg:flex absolute bottom-32 left-10 z-20 py-4 px-6 text-sm font-semibold rounded-2xl shadow-xl backdrop-blur-md ${
+            darkMode
+              ? "bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] text-white"
+              : "bg-gradient-to-r from-[#D8B4FE] to-[#C084FC] text-gray-900 shadow-lg"
+          }`}
         >
           🚀 Portfolio Ready
         </motion.div>
 
+        {/* JS CIRCLE */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: [1, 1.05, 1] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:flex absolute right-[26%] top-[26%] z-20
-                     w-12 h-12 rounded-full shadow-lg backdrop-blur-md
-                     items-center justify-center font-bold
-                     bg-purple-600/20 text-purple-300"
+          className={`hidden lg:flex absolute right-[26%] top-[26%] z-20 w-12 h-12 rounded-full backdrop-blur-md items-center justify-center font-bold shadow-lg ${
+            darkMode ? "bg-purple-600/20 text-purple-300" : "bg-white/80 border border-gray-300 text-purple-700"
+          }`}
         >
           JS
         </motion.div>
 
+        {/* SMOOTH UI TAG */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: [0, -6, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="hidden lg:flex absolute right-[20%] bottom-28 z-20
-                     px-4 py-2 rounded-full shadow-lg backdrop-blur-md
-                     text-sm bg-purple-600/20 text-purple-200"
+          className={`hidden lg:flex absolute right-[20%] bottom-28 z-20 px-4 py-2 rounded-full backdrop-blur-md text-sm shadow-lg ${
+            darkMode ? "bg-purple-600/20 text-purple-200" : "bg-white/80 border border-gray-300 text-purple-700"
+          }`}
         >
           ✨ Smooth UI
         </motion.div>
       </>
 
-      {/* LEFT TEXT (PURPLE GRADIENT) */}
+      {/* LEFT TEXT */}
       <div className="max-w-xl text-center lg:text-left z-20">
         <motion.h1
           {...fade(0)}
@@ -135,17 +143,15 @@ const Hero = () => {
           }`}
         >
           Hi, I'm Rudra — a MERN Stack Developer focused on building fast,
-          beautiful, and modern web apps with clean code & pixel-perfect UI.
+          beautiful, and modern web apps.
         </motion.p>
 
-        {/* PURPLE BUTTON LIKE PH */}
         <motion.a
           {...fade(0.6)}
-          href="https://drive.google.com/file/d/11ZR-I9gVXImioNsfBlrSM34WbRAfdqCA/view?usp=sharing"
+          href="https://drive.google.com/file/d/1iJSaz38y63jYBvsS45dstnYmBGnUqs23/view?usp=sharing"
           target="_blank"
-          className="inline-block mt-10 px-12 py-4 text-lg font-semibold rounded-full
-                     bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-white
-                     shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+          rel="noreferrer"
+          className="inline-block mt-10 px-12 py-4 text-lg font-semibold rounded-full bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-white shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
         >
           Download Resume
         </motion.a>
@@ -168,37 +174,35 @@ const Hero = () => {
         />
       </motion.div>
 
-{/* PURPLE CURVED WAVE – FULL WIDTH + STRONGER PURPLE */}
-<div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-[1] pointer-events-none">
-  <svg
-    viewBox="0 0 1440 450"
-    className="w-full h-[200px] md:h-[260px] lg:h-[300px]"
-    preserveAspectRatio="none"
-  >
-    <defs>
-      <linearGradient id="phSoftPurpleWave" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stopColor="#E9D5FF" />
-        <stop offset="40%" stopColor="#D8B4FE" />
-        <stop offset="100%" stopColor="#C084FC" />
-      </linearGradient>
-    </defs>
+      {/* CURVED PURPLE WAVE */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-[1] pointer-events-none">
+        <svg
+          viewBox="0 0 1440 450"
+          className="w-full h-[200px] md:h-[260px] lg:h-[300px]"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="phSoftPurpleWave" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#E9D5FF" />
+              <stop offset="40%" stopColor="#D8B4FE" />
+              <stop offset="100%" stopColor="#C084FC" />
+            </linearGradient>
+          </defs>
 
-    <path
-      fill="url(#phSoftPurpleWave)"
-      d="
-        M0,300
-        C200,260 400,230 600,240
-        C800,250 1000,300 1200,310
-        C1320,320 1440,330 1440,330
-        L1440,450
-        L0,450
-        Z
-      "
-    />
-  </svg>
-</div>
-
-
+          <path
+            fill="url(#phSoftPurpleWave)"
+            d="
+              M0,300
+              C200,260 400,230 600,240
+              C800,250 1000,300 1200,310
+              C1320,320 1440,330 1440,330
+              L1440,450
+              L0,450
+              Z
+            "
+          />
+        </svg>
+      </div>
     </section>
   );
 };

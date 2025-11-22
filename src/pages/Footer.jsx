@@ -63,14 +63,12 @@ const Footer = () => {
             <FaMapMarkerAlt className="text-xl text-purple-400" />
             <p>
               Kolkata, India
-              <br />
-              Rajshahi, Bangladesh
             </p>
           </div>
 
           <div className="flex items-start gap-3 mb-4">
             <FaEnvelope className="text-xl text-purple-400" />
-            <p>rudra.phymos@gmail.com</p>
+            <p>rudra@rudraprotap.com</p>
           </div>
 
           <div className="flex items-start gap-3 mb-6">

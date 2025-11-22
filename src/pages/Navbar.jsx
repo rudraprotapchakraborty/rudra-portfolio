@@ -134,7 +134,7 @@ const links = ["home", "about", "skills", "education", "projects", "contact"].ma
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://drive.google.com/file/d/11ZR-I9gVXImioNsfBlrSM34WbRAfdqCA/view?usp=sharing"
+            href="https://drive.google.com/file/d/1iJSaz38y63jYBvsS45dstnYmBGnUqs23/view?usp=sharing"
             className="hidden md:block px-5 py-2 rounded-xl text-white font-semibold 
               bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] shadow transition-all"
           >

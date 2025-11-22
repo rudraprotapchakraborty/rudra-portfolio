@@ -43,7 +43,7 @@ const About = () => {
             : "bg-[#faf5ff] text-gray-900"
         }`}
     >
-      {/* PURPLE GRID BACKGROUND */}
+      {/* GRID */}
       <div
         className="absolute inset-0 opacity-[0.2] mix-blend-soft-light z-0 pointer-events-none"
         style={{
@@ -53,7 +53,7 @@ const About = () => {
         }}
       />
 
-      {/* PURPLE BLOBS */}
+      {/* BLOBS */}
       <GlowOrb
         className="absolute top-[-150px] right-[-150px] w-[350px] h-[350px] blur-[180px] opacity-60 z-0"
         color="#C084FC"
@@ -68,41 +68,31 @@ const About = () => {
         {...fadeInUp()}
         className="lg:w-1/2 z-10 space-y-8 text-center lg:text-left"
       >
-        {/* PURPLE HEADING GLOW */}
         <div className="relative inline-block">
           <span
-            className="
-              absolute -inset-x-10 -inset-y-6 
-              bg-gradient-to-r from-[#C084FC] via-[#A855F7] to-[#EC4899]
-              blur-2xl opacity-60 rounded-3xl -z-10
-            "
+            className="absolute -inset-x-10 -inset-y-6 bg-gradient-to-r from-[#C084FC] via-[#A855F7] to-[#EC4899] blur-2xl opacity-60 rounded-3xl -z-10"
           />
           <motion.h1
-            className="text-5xl lg:text-6xl font-extrabold leading-tight 
-                       bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] 
-                       bg-clip-text text-transparent"
+            className="text-5xl lg:text-6xl font-extrabold leading-tight bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] bg-clip-text text-transparent"
             {...fadeInUp(0)}
           >
             About Me
           </motion.h1>
         </div>
 
-        {/* MAIN ABOUT TEXT – SHORT HIRING-FRIENDLY FULL-STACK VERSION */}
         <motion.p
           {...fadeInUp(0.2)}
           className={`text-lg leading-relaxed ${
             darkMode ? "text-gray-300" : "text-gray-700"
           }`}
         >
-          Hi, I’m{" "}
+          Hi, I’m {" "}
           <span className="font-semibold text-[#A855F7]">
             Rudra Protap Chakraborty
           </span>
           , a full-stack developer who builds fast, clean, and user-focused web
-          applications using the{" "}
-          <span className="font-semibold text-[#A855F7]">MERN stack</span>. I
-          enjoy designing smooth, modern interfaces on the front-end and writing
-          efficient, scalable logic on the back-end.
+          applications using the {" "}
+          <span className="font-semibold text-[#A855F7]">MERN stack</span>.
         </motion.p>
 
         <motion.p
@@ -111,13 +101,11 @@ const About = () => {
             darkMode ? "text-gray-300" : "text-gray-700"
           }`}
         >
-          I focus on maintainable code, polished user experience, and continuous
-          learning through real-world projects, documentation, and experimentation.
-          I’m excited to work on teams where thoughtful design and solid
-          engineering practices matter.
+          I focus on maintainable code, polished UI, and continuous learning.
+          I love teams that value clean design and solid engineering.
         </motion.p>
 
-        {/* FUN FACTS – SHORT HIRING-FRIENDLY */}
+        {/* FUN FACTS */}
         <motion.div {...fadeInUp(0.5)} className="mt-8">
           <h2
             className={`text-3xl font-semibold mb-4 ${
@@ -131,14 +119,14 @@ const About = () => {
               darkMode ? "text-gray-300" : "text-gray-700"
             }`}
           >
-            <li>Physics keeps my problem-solving mindset sharp.</li>
-            <li>Movies and gaming inspire my creativity and sense of visuals.</li>
-            <li>I love making products feel fast, intuitive, and refined.</li>
+            <li>Physics boosts my problem‑solving mindset.</li>
+            <li>Movies & gaming inspire my creativity.</li>
+            <li>I love making UI feel fast and intuitive.</li>
           </ul>
         </motion.div>
       </motion.div>
 
-      {/* RIGHT SIDE – FLOATING CARDS INSTEAD OF LOTTIE */}
+      {/* RIGHT SIDE FLOATING CARDS */}
       <motion.div
         {...fadeInUp(0.4)}
         className="lg:w-1/2 flex justify-center items-center z-10"
@@ -150,32 +138,33 @@ const About = () => {
               "top-24 right-4",
               "bottom-6 left-10",
             ];
-            const animY = [
-              [0, -10, 0],
-              [0, 8, 0],
-              [0, -6, 0],
-            ];
+            const animY = [[0, -10, 0], [0, 8, 0], [0, -6, 0]];
 
             return (
               <motion.div
                 key={card.title}
-                className={`
-                  absolute ${positions[index]} 
-                  w-60 rounded-2xl px-5 py-4
-                  shadow-xl backdrop-blur-md
-                  border border-white/10
-                  bg-white/10
-                `}
+                className={`absolute ${positions[index]} w-60 rounded-2xl px-5 py-4
+                  shadow-xl backdrop-blur-md border
+                  ${
+                    darkMode
+                      ? "bg-white/10 border-white/10 text-white"
+                      : "bg-white/70 border-gray-300 text-gray-900 shadow-lg"
+                  }`}
                 animate={{ y: animY[index] }}
                 transition={{ duration: 6 + index, repeat: Infinity, ease: "easeInOut" }}
               >
-                <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-purple-500/30 text-purple-100 mb-2">
+                <span
+                  className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-2
+                    ${
+                      darkMode
+                        ? "bg-purple-500/30 text-purple-100"
+                        : "bg-purple-200 text-purple-800"
+                    }`}
+                >
                   {card.badge}
                 </span>
-                <h3 className="text-lg font-semibold text-white mb-1">
-                  {card.title}
-                </h3>
-                <p className="text-sm text-gray-200">{card.body}</p>
+                <h3 className="text-lg font-semibold mb-1">{card.title}</h3>
+                <p className="text-sm opacity-90">{card.body}</p>
               </motion.div>
             );
           })}
