@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
+import useDevice from "../hooks/useDevice";
+
 import project0 from "../assets/digital-wallet-system.png";
 import project1 from "../assets/hotel-management.png";
 import project2 from "../assets/food-sharing.png";
@@ -49,6 +51,24 @@ const projects = [
 ];
 
 const Projects = () => {
+  const { isMobile } = useDevice();
+
+  // Desktop animation
+  const desktopFade = (delay = 0) => ({
+    initial: { opacity: 0, y: 50 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, delay },
+  });
+
+  // Mobile animation (super light)
+  const mobileFade = {
+    initial: { opacity: 0 },
+    whileInView: { opacity: 1 },
+    viewport: { once: true },
+    transition: { duration: 0.4 },
+  };
+
   return (
     <section
       id="projects"
@@ -71,15 +91,12 @@ const Projects = () => {
         {projects.map((proj, index) => (
           <motion.div
             key={proj.id}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: index * 0.15 }}
+            {...(isMobile ? mobileFade : desktopFade(index * 0.15))}
             className="bg-white dark:bg-[#1a1a1a] border border-[#e7e3ee] 
             dark:border-[#322645] shadow-[0_0_12px_rgba(0,0,0,0.06)] 
             rounded-2xl p-8 md:p-10 flex flex-col"
           >
-            {/* BIG IMAGE LIKE PH */}
+            {/* Image */}
             <div className="w-full h-64 md:h-72 overflow-hidden rounded-xl mb-6">
               <img
                 src={proj.image}
@@ -110,7 +127,7 @@ const Projects = () => {
               ))}
             </div>
 
-            {/* Button — BIG LIKE PH */}
+            {/* Button */}
             <div className="mt-auto flex justify-start">
               <Link
                 to={`/projects/${proj.id}`}

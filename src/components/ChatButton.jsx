@@ -2,42 +2,47 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import ChatWindow from "./ChatWindow";
 import { motion, AnimatePresence } from "framer-motion";
-import chatLogo from "../assets/icons/chatgpt.png"; // your transparent PNG
+import chatLogo from "../assets/icons/chatgpt.png";
 
 const ChatButton = () => {
   const [open, setOpen] = useState(false);
   const [hasOpenedOnce, setHasOpenedOnce] = useState(false);
-  const [hasNewMessage, setHasNewMessage] = useState(false); // ⭐ Purple new message dot
+  const [hasNewMessage, setHasNewMessage] = useState(false);
 
   const toggleChat = () => {
     if (!hasOpenedOnce) setHasOpenedOnce(true);
     setOpen((prev) => !prev);
 
-    // Clear new message dot when opening
+    // Clear purple dot when chat opens
     if (!open) setHasNewMessage(false);
   };
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   return (
     <>
-      {/* FIXED WRAPPER TO PREVENT TRANSFORM SHIFTING */}
+      {/* FIXED CONTAINER prevents float shifting */}
       <div className="fixed bottom-6 right-6 z-[10000] flex items-center gap-3">
 
-        {/* ⭐ Floating “Click me!” bubble — only before first open */}
+        {/* “Click Me!” bubble (only before first open) */}
         {!hasOpenedOnce && !open && (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0, y: [0, -6, 0] }}
+            animate={{ 
+              opacity: 1, 
+              x: 0, 
+              y: isMobile ? 0 : [0, -6, 0] 
+            }}
             transition={{
               duration: 1,
-              repeat: Infinity,
-              repeatType: "loop",
+              repeat: isMobile ? 0 : Infinity,
               ease: "easeInOut",
             }}
             className="
-              px-3 py-2 rounded-xl
-              bg-white/20 backdrop-blur-md
-              border border-white/30
-              text-purple-600 text-sm shadow-lg
+              px-3 py-2 rounded-xl shadow-md
+              text-purple-600 text-sm
+              bg-white/40 backdrop-blur-sm
+              border border-white/40
               pointer-events-none
             "
           >
@@ -45,42 +50,45 @@ const ChatButton = () => {
           </motion.div>
         )}
 
-        {/* ⭐ Floating Chat Button */}
+        {/* MAIN CHAT BUTTON */}
         <motion.button
           onClick={toggleChat}
-          whileHover={{ scale: 1.1 }}
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transform: "none" }}
+          whileHover={!isMobile ? { scale: 1.08 } : {}}
+          animate={!isMobile ? { y: [0, -6, 0] } : {}}
+          transition={{
+            duration: 2,
+            repeat: !isMobile ? Infinity : 0,
+            ease: "easeInOut",
+          }}
           className="
             w-14 h-14 rounded-full relative
             bg-white/10 backdrop-blur-md
             border border-white/20 shadow-lg
-            flex items-center justify-center cursor-pointer
+            flex items-center justify-center
           "
         >
-          {/* ⭐ Purple new-message dot */}
+          {/* ⭐ Purple notification dot */}
           {hasNewMessage && !open && (
             <div className="absolute top-1 right-1 w-3.5 h-3.5 bg-purple-400 rounded-full shadow-md animate-pulse"></div>
           )}
 
-          {/* ⭐ First-time purple dot */}
+          {/* ⭐ Purple dot for first-time user */}
           {!hasOpenedOnce && !open && !hasNewMessage && (
             <div className="absolute top-1 right-1 w-3.5 h-3.5 bg-purple-400 rounded-full animate-pulse"></div>
           )}
 
-          {/* Icon switching */}
+          {/* ICON SWITCH (PNG ↔ CLOSE) */}
           <AnimatePresence mode="wait">
             {!open ? (
               <motion.img
                 key="logo"
                 src={chatLogo}
                 alt="Chat Icon"
-                initial={{ opacity: 0, scale: 0.4 }}
+                initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.4 }}
+                exit={{ opacity: 0, scale: 0.5 }}
                 transition={{ duration: 0.2 }}
-                className="w-8 h-8 object-contain pointer-events-none"
+                className="w-8 h-8 object-contain"
               />
             ) : (
               <motion.div
@@ -90,7 +98,7 @@ const ChatButton = () => {
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                <X size={30} className="text-white" />
+                <X size={28} className="text-white" />
               </motion.div>
             )}
           </AnimatePresence>
@@ -103,7 +111,7 @@ const ChatButton = () => {
           <ChatWindow
             onClose={toggleChat}
             onNewMessage={() => {
-              if (!open) setHasNewMessage(true); // purple dot appears
+              if (!open) setHasNewMessage(true);
             }}
           />
         )}

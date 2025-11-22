@@ -19,42 +19,45 @@ import ai from "../assets/icons/ai.png";
 const Skills = () => {
   const { darkMode } = useContext(ThemeContext);
 
-  // PH-style stagger container
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
 
-  // PH-style slide-up
-  const item = {
-    hidden: { opacity: 0, y: 40 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.65, ease: "easeOut" },
-    },
-  };
+  // Desktop animations ONLY
+  const container = !isMobile
+    ? {
+        hidden: { opacity: 0 },
+        show: {
+          opacity: 1,
+          transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+        },
+      }
+    : {};
 
-  const titleFade = {
-    hidden: { opacity: 0, y: 30 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.7, ease: "easeOut" },
-    },
-  };
+  const item = !isMobile
+    ? {
+        hidden: { opacity: 0, y: 40 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.65, ease: "easeOut" },
+        },
+      }
+    : {};
 
-  // Card base
+  const titleFade = !isMobile
+    ? {
+        hidden: { opacity: 0, y: 30 },
+        show: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.7, ease: "easeOut" },
+        },
+      }
+    : {};
+
   const cardBase =
     "relative rounded-[22px] p-8 w-full h-[380px] shadow-md border overflow-hidden";
 
-  // PH-inspired colors
   const colors = [
     "bg-[#fdebef] border-[#f6d7df]",
     "bg-[#e6f3ff] border-[#d2e7ff]",
@@ -128,20 +131,20 @@ const Skills = () => {
         darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf3ff]"
       }`}
     >
-      {/* Background Glow */}
-      <GlowOrb
-        className="absolute top-[-180px] right-[-140px] w-[360px] h-[360px] blur-[220px] opacity-60"
-        color="#b57aff"
-      />
+      {/* Glow orb – desktop only */}
+      {!isMobile && (
+        <GlowOrb
+          className="absolute top-[-180px] right-[-140px] w-[360px] h-[360px] blur-[220px] opacity-60"
+          color="#b57aff"
+        />
+      )}
 
       <motion.h1
         variants={titleFade}
-        initial="hidden"
-        whileInView="show"
+        initial={!isMobile ? "hidden" : ""}
+        whileInView={!isMobile ? "show" : ""}
         viewport={{ once: true }}
-        className="text-5xl font-extrabold text-center mb-20 
-        bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff]
-        text-transparent bg-clip-text"
+        className="text-5xl font-extrabold text-center mb-20 bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff] text-transparent bg-clip-text"
       >
         My Skills
       </motion.h1>
@@ -150,46 +153,45 @@ const Skills = () => {
       <motion.div
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12"
         variants={container}
-        initial="hidden"
-        whileInView="show"
+        initial={!isMobile ? "hidden" : ""}
+        whileInView={!isMobile ? "show" : ""}
         viewport={{ once: true }}
       >
         {skills.map((skill, i) => (
           <motion.div
             key={i}
             variants={item}
-            whileHover={{ y: -8 }}
+            whileHover={!isMobile ? { y: -8 } : {}}
             className={`${cardBase} ${colors[i]}`}
           >
-            {/* 🌈 Moving glowing sweep like PH */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)",
-                filter: "blur(18px)",
-              }}
-              animate={{ x: ["-120%", "120%"] }}
-              transition={{
-                duration: 2.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+            {/* Moving sweep effect – desktop only */}
+            {!isMobile && (
+              <motion.div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)",
+                  filter: "blur(18px)",
+                }}
+                animate={{ x: ["-120%", "120%"] }}
+                transition={{
+                  duration: 2.4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            )}
 
-            {/* Icon */}
             <img
               src={skill.icon}
               alt={skill.title}
               className="w-[85px] h-[85px] object-contain mb-6 relative z-10"
             />
 
-            {/* Title */}
             <h3 className="text-2xl font-bold mb-4 text-[#3b2b7f] relative z-10">
               {skill.title}
             </h3>
 
-            {/* Text */}
             <p className="text-[15px] leading-[1.55] text-gray-800 relative z-10">
               {skill.text}
             </p>

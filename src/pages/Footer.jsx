@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { motion } from "framer-motion";
+import useDevice from "../hooks/useDevice"; // ⭐ Mobile detection
+
 import {
   FaFacebook,
   FaGithub,
@@ -12,9 +14,8 @@ import {
 
 const Footer = () => {
   const { darkMode } = useContext(ThemeContext);
-
-  // ❗ Dark ONLY when user toggles, not based on page
   const isDark = darkMode;
+  const { isMobile } = useDevice(); // ⭐ Detect phone
 
   const [formData, setFormData] = useState({ email: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -28,32 +29,42 @@ const Footer = () => {
 
   return (
     <footer
+    id="footer"
       className={`relative pt-20 pb-12 overflow-hidden transition-all duration-700
       ${isDark ? "bg-[#020617] text-gray-300" : "bg-[#faf2ff] text-gray-800"}`}
     >
       {/* Waves Background */}
       <img
         src="https://raw.githubusercontent.com/ProgrammingHero1/footer-wave/main/waves.svg"
-        className="absolute bottom-0 left-0 w-full opacity-20 pointer-events-none"
+        className={`absolute bottom-0 left-0 w-full pointer-events-none 
+          ${isMobile ? "opacity-10" : "opacity-20"}`}
         alt=""
       />
 
       {/* 4 COLUMN LAYOUT */}
       <div
-        className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 
-          grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14"
+        className={`relative z-10 max-w-7xl mx-auto px-6 md:px-12 
+          grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14`}
       >
-        {/* COLUMN 1: CONTACT INFO */}
+        {/* COLUMN 1 */}
         <div>
           {/* Logo */}
           <button className="flex items-center gap-2 mb-6">
             <img className="w-14" src="/favicon.png" alt="" />
 
             <div className="flex flex-col items-start leading-[1.05]">
-              <span className={`text-2xl font-bold ${isDark ? "text-white" : "text-gray-900"}`}>
+              <span
+                className={`text-2xl font-bold ${
+                  isDark ? "text-white" : "text-gray-900"
+                }`}
+              >
                 Rudra Protap
               </span>
-              <span className={`text-2xl font-bold -mt-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+              <span
+                className={`text-2xl font-bold -mt-2 ${
+                  isDark ? "text-white" : "text-gray-900"
+                }`}
+              >
                 Chakraborty
               </span>
             </div>
@@ -61,9 +72,7 @@ const Footer = () => {
 
           <div className="flex items-start gap-3 mb-4">
             <FaMapMarkerAlt className="text-xl text-purple-400" />
-            <p>
-              Kolkata, India
-            </p>
+            <p>Kolkata, India</p>
           </div>
 
           <div className="flex items-start gap-3 mb-4">
@@ -78,9 +87,9 @@ const Footer = () => {
 
           {/* WhatsApp Box */}
           <div
-            className={`rounded-2xl p-5 shadow-lg border ${
+            className={`rounded-2xl p-5 border ${
               isDark ? "bg-[#0a0f29] border-[#1f2937]" : "bg-white border-gray-200"
-            }`}
+            } ${isMobile ? "shadow-none" : "shadow-lg"}`}
           >
             <p className="text-sm opacity-70 mb-1">WhatsApp Anytime</p>
 
@@ -94,7 +103,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* COLUMN 2: LINKS */}
+        {/* COLUMN 2 */}
         <div>
           <h2 className="text-xl font-bold mb-5">Useful Links</h2>
 
@@ -114,7 +123,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* COLUMN 3: SOCIAL */}
+        {/* COLUMN 3 */}
         <div>
           <h2 className="text-xl font-bold mb-5">Follow Me</h2>
 
@@ -145,15 +154,15 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* COLUMN 4: CONTACT FORM */}
+        {/* COLUMN 4 — Contact Form */}
         <motion.form
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: isMobile ? 0 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className={`p-6 rounded-2xl border shadow-md ${
+          transition={{ duration: isMobile ? 0.3 : 0.6 }}
+          className={`p-6 rounded-2xl border ${
             isDark ? "bg-[#0f101d]/60 border-[#1e2030]" : "bg-white border-gray-200"
-          }`}
+          } ${isMobile ? "shadow-none" : "shadow-md"}`}
         >
           <h3 className="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-300">
             Quick Message
@@ -167,7 +176,9 @@ const Footer = () => {
             placeholder="Your Email"
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             className={`w-full p-3 rounded-xl border mb-3 ${
-              isDark ? "bg-[#141523] border-[#303244] text-white" : "bg-gray-50 border-gray-300"
+              isDark
+                ? "bg-[#141523] border-[#303244] text-white"
+                : "bg-gray-50 border-gray-300"
             }`}
           />
 
@@ -179,7 +190,9 @@ const Footer = () => {
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             className={`w-full p-3 rounded-xl border mb-4 ${
-              isDark ? "bg-[#141523] border-[#303244] text-white" : "bg-gray-50 border-gray-300"
+              isDark
+                ? "bg-[#141523] border-[#303244] text-white"
+                : "bg-gray-50 border-gray-300"
             }`}
           />
 
