@@ -5,12 +5,12 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/Routes";
 import { ThemeProvider } from "./context/ThemeContext";
 import ChatButton from "./components/ChatButton";
-// import CustomCursor from './components/CustomCursor';
+import CustomCursor from './components/CustomCursor';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <ThemeProvider>
-      {/* <CustomCursor /> */}
+      <CustomCursor />
       <ChatButton />
       <RouterProvider router={router} />
     </ThemeProvider>

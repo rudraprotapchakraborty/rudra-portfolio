@@ -1,142 +1,129 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { motion } from "framer-motion";
-
-import GlowOrb from "../components/GlowOrb";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import useDevice from "../hooks/useDevice";
 import amity from "../assets/icons/amity.png";
+import GlowOrb from "../components/GlowOrb";
 
 const Education = () => {
   const { darkMode } = useContext(ThemeContext);
+  const { isMobile } = useDevice();
+  
+  // 3D Parallax Mouse Tracking
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  const isMobile =
-    typeof window !== "undefined" && window.innerWidth < 768;
+  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
 
-  const fade = !isMobile
-    ? {
-        hidden: { opacity: 0, y: 40 },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.65, ease: "easeOut" },
-        },
-      }
-    : {};
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
 
-  const titleFade = !isMobile
-    ? {
-        hidden: { opacity: 0, y: 25 },
-        show: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.7, ease: "easeOut" },
-        },
-      }
-    : {};
+  const handleMouseMove = (e) => {
+    if (!ref.current || isMobile) return;
+    const rect = ref.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
 
-  const cardBase =
-    "relative rounded-[26px] p-12 w-full max-w-5xl min-h-[320px] shadow-md border overflow-hidden flex items-center justify-between gap-10";
-
-  const cardColor = "bg-[#fdebef] border-[#f6d7df]";
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
     <section
       id="education"
-      className={`relative py-28 min-h-screen px-8 lg:px-24 transition-colors duration-700 ${
-        darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf3ff]"
-      }`}
+      className="relative py-32 min-h-[80vh] px-8 lg:px-24 flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Glow — desktop only */}
-      {!isMobile && (
-        <GlowOrb
-          className="absolute top-[-180px] right-[-140px] w-[360px] h-[360px] blur-[220px] opacity-60"
-          color="#b57aff"
-        />
-      )}
-
       {/* Title */}
-      <motion.h1
-        variants={titleFade}
-        initial={!isMobile ? "hidden" : ""}
-        whileInView={!isMobile ? "show" : ""}
-        viewport={{ once: true }}
-        className="text-5xl font-extrabold text-center mb-20
-          bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff]
-          text-transparent bg-clip-text"
-      >
-        Education
-      </motion.h1>
-
-      {/* CARD WRAPPER */}
       <motion.div
-        className="w-full flex justify-center"
-        variants={fade}
-        initial={!isMobile ? "hidden" : ""}
-        whileInView={!isMobile ? "show" : ""}
-        viewport={{ once: true }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        className="text-center mb-24 z-10"
+      >
+        <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text drop-shadow-lg inline-block">
+          Education
+        </h2>
+        <p className={`mt-4 text-xl font-light ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+          The academic foundation fueling my technical journey.
+        </p>
+      </motion.div>
+
+      {/* 3D FLOATING CARD */}
+      <div 
+        ref={ref} 
+        onMouseMove={handleMouseMove} 
+        onMouseLeave={handleMouseLeave}
+        className="relative w-full max-w-5xl z-10 [perspective:1200px]"
       >
         <motion.div
-          className={`${cardBase} ${cardColor} ${
-            isMobile ? "flex-col text-center p-10" : "flex-row"
-          }`}
-          whileHover={!isMobile ? { y: -6 } : {}}
+          style={isMobile ? {} : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true, margin: "-100px" }}
+          className={`relative rounded-[3rem] p-12 md:p-16 w-full min-h-[400px] border backdrop-blur-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-12
+            ${darkMode ? "bg-white/5 border-white/10" : "bg-white/70 border-purple-200"}
+          `}
         >
-          {/* Glow Sweep — desktop only */}
+          {/* Internal Glow Overlay */}
           {!isMobile && (
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, rgba(255,255,255,0.50), transparent)",
-                filter: "blur(18px)",
-              }}
-              animate={{ x: ["-120%", "120%"] }}
-              transition={{
-                duration: 2.4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
+             <motion.div
+               className="absolute inset-0 pointer-events-none rounded-[3rem] opacity-30"
+               style={{
+                 background: "radial-gradient(circle at center, rgba(168, 85, 247, 0.8) 0%, transparent 60%)",
+                 x: useTransform(mouseXSpring, [-0.5, 0.5], ["-50%", "50%"]),
+                 y: useTransform(mouseYSpring, [-0.5, 0.5], ["-50%", "50%"]),
+               }}
+             />
           )}
 
-          {/* LOGO — TOP ON MOBILE */}
-          <div
-            className={`relative z-10 ${
-              isMobile ? "w-32 h-32 mx-auto mb-6" : "w-[170px] h-[170px]"
-            }`}
+          {/* Logo Side */}
+          <div 
+            style={{ transform: "translateZ(80px)" }} 
+            className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 relative z-20"
           >
-            <img
-              src={amity}
-              alt="Amity University"
-              className="w-full h-full object-contain drop-shadow-lg"
-            />
+             <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full" />
+             <img src={amity} alt="Amity University" className="w-full h-full object-contain drop-shadow-2xl relative z-10" />
           </div>
 
-          {/* TEXT — BELOW ON MOBILE */}
-          <div
-            className={`relative z-10 flex-1 ${
-              isMobile ? "text-center" : "text-left"
-            }`}
+          {/* Text Side */}
+          <div 
+            style={{ transform: "translateZ(60px)" }}
+            className={`flex-1 relative z-20 ${isMobile ? "text-center" : "text-left"}`}
           >
-            <h3 className="text-3xl font-bold mb-3 text-[#3b2b7f]">
-              Amity University, Kolkata
-            </h3>
-
-            <p className="text-lg mb-1 text-gray-800">
-              BSc Physics (Honours with Research)
-            </p>
-
-            <p className="text-[15px] font-semibold text-gray-700 mb-4">
-              2024–2028
-            </p>
-
-            <p className="text-[15px] leading-[1.55] text-gray-700">
-              Strengthened analytical reasoning, scientific problem-solving,
-              and built solid foundations in mathematics and research-based
-              physics studies.
-            </p>
+             <h3 className={`text-4xl md:text-5xl font-extrabold mb-4 tracking-tight ${darkMode ? "text-white" : "text-black"}`}>
+                Amity University, Kolkata
+             </h3>
+             <p className="text-2xl md:text-3xl font-light text-purple-500 mb-2">
+                BSc Physics (Honours with Research)
+             </p>
+             <p className={`text-lg font-bold mb-6 tracking-wide uppercase ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                2024 – 2028
+             </p>
+             <p className={`text-xl leading-relaxed font-light ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+                Bridging the gap between the physical universe and digital realities. Strengthening analytical reasoning and scientific problem-solving, creating a rock-solid foundation for complex logical algorithms and state management in code.
+             </p>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
+      
+      {/* Background Ambience Specific to Education */}
+      {!isMobile && (
+         <>
+           <GlowOrb className="absolute -left-[20%] top-[10%] w-[500px] h-[500px] blur-[150px] opacity-40 -z-10" color="#6C2BD9" />
+           <GlowOrb className="absolute -right-[20%] bottom-[10%] w-[500px] h-[500px] blur-[150px] opacity-40 -z-10" color="#EC4899" />
+         </>
+      )}
     </section>
   );
 };
