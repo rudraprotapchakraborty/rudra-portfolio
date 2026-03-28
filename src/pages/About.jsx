@@ -1,185 +1,98 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import GlowOrb from "../components/GlowOrb";
-import useDevice from "../hooks/useDevice";
 
 const About = () => {
   const { darkMode } = useContext(ThemeContext);
-  const { isMobile } = useDevice();   // REAL MOBILE CHECK
 
-  const fadeInUp = (delay = 0) => ({
-    initial: { opacity: 0, y: 40 },
-    whileInView: { opacity: 1, y: 0 },
-    transition: { duration: 0.9, delay, ease: "easeOut" },
-    viewport: { once: true },
-  });
+  const containerVar = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 },
+    },
+  };
 
-  const floatingCards = [
-    {
-      title: "MERN Stack",
-      body: "MongoDB, Express, React & Node.js for end-to-end web apps.",
-      badge: "Full-Stack",
-    },
-    {
-      title: "Clean UI, Clean Code",
-      body: "Reusable components, clean structure & perfect UX.",
-      badge: "Frontend",
-    },
-    {
-      title: "APIs & Logic",
-      body: "REST APIs, authentication & scalable backend logic.",
-      badge: "Backend",
-    },
-  ];
+  const itemVar = {
+    hidden: { opacity: 0, scale: 0.95, y: 30 },
+    visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, type: "spring" } },
+  };
+
+  const getBentoStyle = () =>
+    `relative overflow-hidden rounded-3xl p-8 border backdrop-blur-xl shadow-xl hover:shadow-2xl transition-all duration-300 group ${
+      darkMode
+        ? "bg-white/5 border-white/10 hover:border-purple-500/50"
+        : "bg-white/70 border-gray-200 hover:border-purple-500/50"
+    }`;
 
   return (
     <section
       id="about"
-      className={`
-        relative overflow-hidden py-24 px-6 lg:px-24 min-h-screen
-        flex flex-col lg:flex-row items-center justify-between gap-16
-        transition-colors duration-700
-        ${darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf5ff] text-gray-900"}
-      `}
+      className="relative min-h-screen py-32 px-6 lg:px-24 flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* GRID — only on desktop */}
-      {!isMobile && (
-        <div
-          className="absolute inset-0 opacity-[0.2] mix-blend-soft-light z-0 pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, rgba(138,43,226,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(138,43,226,0.15) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-      )}
-
-      {/* BLOBS — only on desktop */}
-      {!isMobile && (
-        <>
-          <GlowOrb
-            className="absolute top-[-150px] right-[-150px] w-[320px] h-[320px] blur-[140px] opacity-60 z-0"
-            color="#C084FC"
-          />
-          <GlowOrb
-            className="absolute bottom-[-150px] left-[-150px] w-[350px] h-[350px] blur-[140px] opacity-60 z-0"
-            color="#A855F7"
-          />
-        </>
-      )}
-
-      {/* LEFT CONTENT */}
       <motion.div
-        {...fadeInUp()}
-        className="lg:w-1/2 z-10 space-y-8 text-center lg:text-left"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVar}
+        className="w-full max-w-7xl"
       >
-        <div className="relative inline-block">
-          {!isMobile && (
-            <span className="absolute -inset-x-10 -inset-y-6 bg-gradient-to-r from-[#C084FC] via-[#A855F7] to-[#EC4899] blur-2xl opacity-60 rounded-3xl -z-10" />
-          )}
-
-          <motion.h1
-            className="text-5xl lg:text-6xl font-extrabold leading-tight
-              bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899]
-              bg-clip-text text-transparent"
-            {...fadeInUp(0)}
-          >
+        {/* HEADER */}
+        <motion.div variants={itemVar} className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] bg-clip-text text-transparent inline-block drop-shadow-sm">
             About Me
-          </motion.h1>
-        </div>
-
-        <motion.p
-          {...fadeInUp(0.2)}
-          className={`text-lg leading-relaxed ${
-            darkMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          Hi, I’m{" "}
-          <span className="font-semibold text-[#A855F7]">Rudra Protap Chakraborty</span>,
-          a full-stack developer passionate about building clean and powerful applications.
-        </motion.p>
-
-        <motion.p
-          {...fadeInUp(0.35)}
-          className={`text-lg leading-relaxed ${
-            darkMode ? "text-gray-300" : "text-gray-700"
-          }`}
-        >
-          I focus on maintainable code, polished UI and continuous learning.
-        </motion.p>
-
-        {/* FUN FACTS */}
-        <motion.div {...fadeInUp(0.5)} className="mt-8">
-          <h2
-            className={`text-3xl font-semibold mb-4 ${
-              darkMode ? "text-[#D8B4FE]" : "text-[#7C3AED]"
-            }`}
-          >
-            Fun Facts
           </h2>
-
-          <ul
-            className={`list-disc pl-6 space-y-3 text-lg ${
-              darkMode ? "text-gray-300" : "text-gray-700"
-            }`}
-          >
-            <li>Physics boosts my problem-solving.</li>
-            <li>Movies & gaming inspire creativity.</li>
-            <li>I love making UI feel smooth and intuitive.</li>
-          </ul>
+          <p className={`mt-4 text-lg ${darkMode ? "text-gray-400" : "text-gray-600"} max-w-2xl mx-auto`}>
+            A deep dive into my background, skills, and the mindset I bring to web development.
+          </p>
         </motion.div>
-      </motion.div>
 
-      {/* RIGHT SIDE FLOATING CARDS */}
-      <motion.div
-        {...fadeInUp(0.4)}
-        className="lg:w-1/2 flex justify-center items-center z-10"
-      >
-        <div className="relative w-full max-w-md h-[320px]">
-          {floatingCards.map((card, index) => {
-            const positions = [
-              "top-4 left-4",
-              "top-24 right-4",
-              "bottom-6 left-10",
-            ];
+        {/* BENTO GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[220px]">
+          
+          {/* Main Intro Card (Spans 2x2) */}
+          <motion.div variants={itemVar} className={`md:col-span-2 md:row-span-2 ${getBentoStyle()}`}>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <h3 className={`text-3xl font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
+              Who am I?
+            </h3>
+            <p className={`text-lg leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+              I’m <span className="font-semibold text-purple-500">Rudra Protap Chakraborty</span>, a passionate full-stack developer blending design with engineering. I thrive in environments where creativity meets complex problem-solving.
+            </p>
+            <p className={`mt-4 text-lg leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
+              Whether backend architecture via Node.js/MongoDB or creating mesmerizing frontend visuals via React and Framer Motion, I focus on delivering perfect user experiences.
+            </p>
+          </motion.div>
 
-            const floatAnim = [[0, -10, 0], [0, 8, 0], [0, -6, 0]];
+          {/* Skill 1 */}
+          <motion.div variants={itemVar} className={`md:col-span-1 md:row-span-1 ${getBentoStyle()} flex flex-col justify-center`}>
+             <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-purple-500/20 blur-3xl rounded-full"></div>
+             <span className="text-sm font-semibold tracking-wider text-purple-500 mb-2 uppercase">Stack</span>
+             <h4 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-black"}`}>MERN</h4>
+             <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>End-to-end web apps scaling elegantly.</p>
+          </motion.div>
 
-            return (
-              <motion.div
-                key={card.title}
-                animate={isMobile ? {} : { y: floatAnim[index] }}
-                transition={
-                  isMobile
-                    ? { duration: 0 }
-                    : { duration: 6 + index, repeat: Infinity, ease: "easeInOut" }
-                }
-                className={`absolute ${positions[index]} w-60 rounded-2xl px-5 py-4 
-                  shadow-xl backdrop-blur-md border
-                  ${
-                    darkMode
-                      ? "bg-white/10 border-white/10 text-white"
-                      : "bg-white/70 border-gray-300 text-gray-900"
-                  }
-                `}
-              >
-                <span
-                  className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-2
-                    ${
-                      darkMode
-                        ? "bg-purple-500/30 text-purple-100"
-                        : "bg-purple-200 text-purple-800"
-                    }`}
-                >
-                  {card.badge}
-                </span>
+          {/* Interesting Fact */}
+          <motion.div variants={itemVar} className={`md:col-span-1 md:row-span-1 ${getBentoStyle()} flex flex-col justify-center bg-gradient-to-br from-purple-600 to-pink-600 border-none !text-white`}>
+            <span className="text-sm font-semibold tracking-wider opacity-80 mb-2 uppercase">Background</span>
+            <h4 className="text-2xl font-bold">Physics Geek</h4>
+            <p className="mt-2 opacity-90">Quantum logic heavily boosted my programming logic!</p>
+          </motion.div>
 
-                <h3 className="text-lg font-semibold mb-1">{card.title}</h3>
-                <p className="text-sm opacity-90">{card.body}</p>
-              </motion.div>
-            );
-          })}
+          {/* Skill 2 */}
+          <motion.div variants={itemVar} className={`md:col-span-2 lg:col-span-1 md:row-span-1 ${getBentoStyle()} flex flex-col justify-center`}>
+            <span className="text-sm font-semibold tracking-wider text-pink-500 mb-2 uppercase">Philosophy</span>
+            <h4 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-black"}`}>Clean Code</h4>
+            <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Reusable robust structures & components.</p>
+          </motion.div>
+
+          {/* Hobbies / Extras */}
+          <motion.div variants={itemVar} className={`md:col-span-2 lg:col-span-1 md:row-span-1 ${getBentoStyle()} flex flex-col justify-center`}>
+            <span className="text-sm font-semibold tracking-wider text-indigo-400 mb-2 uppercase">Hobbies</span>
+            <h4 className={`text-2xl font-bold ${darkMode ? "text-white" : "text-black"}`}>Movies & Gaming</h4>
+            <p className={`mt-2 ${darkMode ? "text-gray-400" : "text-gray-600"}`}>Fueling my imagination and visual creativity.</p>
+          </motion.div>
+          
         </div>
       </motion.div>
     </section>

@@ -1,227 +1,158 @@
-import { useContext, useRef } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../context/ThemeContext";
-import { motion } from "framer-motion";
-import GlowOrb from "../components/GlowOrb";
-import useDevice from "../hooks/useDevice"; // ≤≤ make sure file exists
-import "../index.css";
-
+import { motion, useMotionValue, useTransform, useSpring } from "framer-motion";
+import useDevice from "../hooks/useDevice";
+import MagneticButton from "../components/MagneticButton";
 import photo from "../assets/photo.png";
 
 const Hero = () => {
   const { darkMode } = useContext(ThemeContext);
-  const { isMobile } = useDevice(); // 👉 detect mobile
-  const heroRef = useRef(null);
+  const { isMobile } = useDevice();
 
-  const fade = (delay = 0) => ({
-    initial: { opacity: 0, y: 40 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 1, delay, ease: "easeOut" },
-  });
+  // 3D Card Hover Effect Values
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  const lightCard =
-    "bg-white/70 border border-gray-300 text-gray-900 shadow-xl";
-  const darkCard =
-    "bg-white/10 border border-white/10 text-purple-100 shadow-xl";
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  const handleMouseMove = (e) => {
+    if (isMobile) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: "easeOut" } },
+  };
+
+  const text1 = "Build Stunning ".split(" ");
+  const text2 = "Web Experiences".split(" ");
 
   return (
     <section
-      ref={heroRef}
-      className={`
-        relative min-h-screen w-full 
-        flex flex-col lg:flex-row 
-        items-center justify-center 
-        gap-10 lg:gap-16
-        px-6 lg:px-16 pt-32 pb-40
-        overflow-visible
-        transition-all duration-700
-        ${darkMode ? "bg-[#0b0a0f] text-white" : "bg-[#faf5ff] text-gray-900"}
-      `}
+      id="home"
+      className="relative min-h-screen w-full flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-24 px-6 lg:px-20 pt-32 pb-40 overflow-hidden"
     >
-      {/* GRID */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.2] mix-blend-soft-light z-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(138,43,226,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(138,43,226,0.15) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      {/* BLOBS — DISABLED ON MOBILE FOR PERFORMANCE */}
-      {!isMobile && (
-        <>
-          <GlowOrb
-            className="absolute top-[-180px] left-[-140px] w-[360px] h-[360px] blur-[180px] opacity-60 z-0"
-            color="#C084FC"
-          />
-          <GlowOrb
-            className="absolute bottom-[-200px] right-[-160px] w-[420px] h-[420px] blur-[200px] opacity-60 z-0"
-            color="#A855F7"
-          />
-        </>
-      )}
-
-      {/* FLOATING CARDS — DISABLED ON MOBILE */}
-      {!isMobile && (
-        <>
-          {/* HTML tag card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className={`hidden lg:flex absolute left-10 top-[30%] z-20 px-6 py-4 rounded-2xl backdrop-blur-md font-semibold text-lg shadow-xl ${
-              darkMode ? darkCard : lightCard
-            }`}
-          >
-            {"</>"}
-          </motion.div>
-
-          {/* Star card */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: [-8, 8, -8] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className={`hidden lg:flex absolute right-10 top-[48%] z-20 px-6 py-4 rounded-2xl backdrop-blur-md text-xl shadow-xl ${
-              darkMode ? darkCard : lightCard
-            }`}
-          >
-            ⭐
-          </motion.div>
-
-          {/* Portfolio ready */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: [0, -8, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className={`hidden lg:flex absolute bottom-32 left-10 z-20 py-4 px-6 text-sm font-semibold rounded-2xl shadow-xl backdrop-blur-md ${
-              darkMode
-                ? "bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] text-white"
-                : "bg-gradient-to-r from-[#D8B4FE] to-[#C084FC] text-gray-900 shadow-lg"
-            }`}
-          >
-            🚀 Portfolio Ready
-          </motion.div>
-
-          {/* JS Bubble */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: [1, 1.05, 1] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className={`hidden lg:flex absolute right-[26%] top-[26%] z-20 w-12 h-12 rounded-full backdrop-blur-md flex items-center justify-center font-bold shadow-lg ${
-              darkMode
-                ? "bg-purple-600/20 text-purple-300"
-                : "bg-white/80 border border-gray-300 text-purple-700"
-            }`}
-          >
-            JS
-          </motion.div>
-
-          {/* Smooth UI */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: [0, -6, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className={`hidden lg:flex absolute right-[20%] bottom-28 z-20 px-4 py-2 rounded-full backdrop-blur-md text-sm shadow-lg ${
-              darkMode
-                ? "bg-purple-600/20 text-purple-200"
-                : "bg-white/80 border border-gray-300 text-purple-700"
-            }`}
-          >
-            ✨ Smooth UI
-          </motion.div>
-        </>
-      )}
-
-      {/* LEFT TEXT */}
-      <div className="max-w-xl text-center lg:text-left z-20">
-        <motion.h1
-          {...fade(0)}
-          className="text-5xl lg:text-6xl font-extrabold leading-tight"
-        >
-          Build
-          <br />
-          <span className="relative inline-block">
-            <span className="absolute inset-0 bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] blur-md opacity-40 -z-10"></span>
-            <span className="bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-transparent bg-clip-text">
-              Stunning Web Experiences
-            </span>
+      {/* LEFT SIDE: TEXT */}
+      <motion.div
+        className="max-w-xl text-center lg:text-left z-20"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <h1 className="text-5xl lg:text-[4.5rem] font-extrabold leading-[1.1] mb-6 flex flex-wrap justify-center lg:justify-start">
+          {text1.map((word, i) => (
+            <motion.span key={i} variants={wordVariants} className="mr-3">
+              {word}
+            </motion.span>
+          ))}
+          <span className="relative inline-block w-full lg:w-auto mt-2 lg:mt-0">
+            {text2.map((word, i) => (
+              <motion.span
+                key={i}
+                variants={wordVariants}
+                className="mr-3 bg-gradient-to-r from-[#C084FC] via-[#A855F7] to-[#EC4899] text-transparent bg-clip-text drop-shadow-[0_0_15px_rgba(203,132,252,0.3)]"
+              >
+                {word}
+              </motion.span>
+            ))}
           </span>
-        </motion.h1>
+        </h1>
 
         <motion.p
-          {...fade(0.3)}
-          className={`mt-6 text-lg leading-relaxed ${
-            darkMode ? "text-gray-300" : "text-gray-700"
+          variants={wordVariants}
+          className={`text-lg lg:text-xl leading-relaxed max-w-lg mx-auto lg:mx-0 ${
+            darkMode ? "text-gray-300" : "text-gray-600"
           }`}
         >
-          Hi, I'm Rudra — a MERN Stack Developer focused on building fast,
-          beautiful, and modern web apps.
+          Hi, I'm <span className="font-semibold text-[#A855F7]">Rudra</span>. A MERN Stack Developer focused on crafting fast, intuitive, and mesmerizing digital products.
         </motion.p>
 
-        <motion.a
-          {...fade(0.6)}
-          href="https://drive.google.com/file/d/1iJSaz38y63jYBvsS45dstnYmBGnUqs23/view?usp=sharing"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-block mt-10 px-12 py-4 text-lg font-semibold rounded-full bg-gradient-to-r from-[#6C2BD9] via-[#A855F7] to-[#EC4899] text-white shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-        >
-          Download Resume
-        </motion.a>
-      </div>
-
-      {/* IMAGE FRAME */}
-      <motion.div
-        {...fade(0.5)}
-        className="relative w-[260px] h-[260px] lg:w-[320px] lg:h-[320px] flex justify-center z-20"
-      >
-        {/* FLOATING ONLY ON DESKTOP */}
-        <motion.div
-          className="absolute inset-0 rounded-3xl shadow-xl backdrop-blur-md bg-purple-300/10"
-          animate={isMobile ? {} : { y: [0, -10, 0] }}
-          transition={
-            isMobile
-              ? { duration: 0 }
-              : { duration: 6, repeat: Infinity, ease: "easeInOut" }
-          }
-        />
-
-        <img
-          src={photo}
-          alt="Rudra"
-          className="w-full h-full object-cover rounded-3xl shadow-xl relative"
-        />
+        <motion.div variants={wordVariants} className="mt-12">
+          <MagneticButton>
+            <a
+              href="https://drive.google.com/file/d/1kha8svSeYUWKe_9xHwa-MxaeJjiF8MqG/view?usp=sharing"
+              target="_blank"
+              rel="noreferrer"
+              className="relative inline-flex px-10 py-4 font-bold rounded-full overflow-hidden group"
+            >
+              {/* Button Background & Border Effects */}
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#6C2BD9] to-[#EC4899]  -z-10 group-hover:opacity-90 transition-opacity"></span>
+              <span className="absolute rotate-45 inset-0 w-full h-[300%] bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[200%] group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out -z-10"></span>
+              
+              <span className="text-white text-lg relative z-10 flex items-center gap-2">
+                Download Resume <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </span>
+            </a>
+          </MagneticButton>
+        </motion.div>
       </motion.div>
 
-      {/* CURVED WAVE */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-screen z-[1] pointer-events-none">
-        <svg
-          viewBox="0 0 1440 450"
-          className="w-full h-[200px] md:h-[260px] lg:h-[300px]"
-          preserveAspectRatio="none"
+      {/* RIGHT SIDE: ANIMATED 3D PROFILE IMAGE */}
+      <motion.div
+        className="relative z-20 perspective-1000"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+      >
+        <motion.div
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          style={isMobile ? {} : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+          className={`relative w-[280px] h-[280px] lg:w-[400px] lg:h-[400px] rounded-full p-2
+            bg-gradient-to-br from-[#C084FC]/30 to-[#EC4899]/30 
+            shadow-[0_0_40px_rgba(192,132,252,0.3)]
+            backdrop-blur-xl border border-white/10
+          `}
         >
-          <defs>
-            <linearGradient id="phSoftPurpleWave" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#E9D5FF" />
-              <stop offset="40%" stopColor="#D8B4FE" />
-              <stop offset="100%" stopColor="#C084FC" />
-            </linearGradient>
-          </defs>
+          {/* Internal rotating dashes/rings */}
+          {!isMobile && (
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 rounded-full border-2 border-dashed border-[#A855F7]/40 w-[110%] h-[110%] -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 pointer-events-none"
+            />
+          )}
 
-          <path
-            fill="url(#phSoftPurpleWave)"
-            d="
-              M0,300
-              C200,260 400,230 600,240
-              C800,250 1000,300 1200,310
-              C1320,320 1440,330 1440,330
-              L1440,450
-              L0,450
-              Z
-            "
-          />
-        </svg>
-      </div>
+          <div className="w-full h-full rounded-full overflow-hidden bg-[#0b0a0f] relative group">
+            {/* The Image */}
+            <img
+              src={photo}
+              alt="Rudra"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+              style={{ transformTranslateZ: "40px" }} // Pop out in 3D Space
+            />
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

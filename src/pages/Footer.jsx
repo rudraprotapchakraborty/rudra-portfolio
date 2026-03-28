@@ -82,7 +82,7 @@ const Footer = () => {
 
           <div className="flex items-start gap-3 mb-6">
             <FaPhone className="text-xl text-purple-400" />
-            <p>+91 74393 61200</p>
+            <p>+8801334509527</p>
           </div>
 
           {/* WhatsApp Box */}
@@ -96,7 +96,7 @@ const Footer = () => {
             <div className="flex items-center gap-4">
               <FaPhone className="text-3xl text-purple-500" />
               <div>
-                <h2 className="text-lg font-bold">+91 74393 61200</h2>
+                <h2 className="text-lg font-bold">+8801334509527</h2>
                 <p className="text-sm opacity-70">Available 24/7</p>
               </div>
             </div>

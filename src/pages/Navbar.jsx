@@ -135,7 +135,7 @@ const handleNavClick = (link) => {
 
           {/* Resume */}
           <a
-            href="https://drive.google.com/file/d/1iJSaz38y63jYBvsS45dstnYmBGnUqs23/view?usp=sharing"
+            href="https://drive.google.com/file/d/1kha8svSeYUWKe_9xHwa-MxaeJjiF8MqG/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:block px-5 py-2 rounded-xl text-white font-semibold bg-gradient-to-r from-[#6C2BD9] to-[#A855F7] shadow transition-all"

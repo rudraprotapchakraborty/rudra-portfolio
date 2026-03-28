@@ -81,7 +81,7 @@ const Contact = () => {
               <FaWhatsapp className="text-3xl text-purple-500 mt-1" />
               <div>
                 <h3 className="text-lg font-semibold">WhatsApp</h3>
-                <p className="text-sm opacity-80">+91 74393 61200</p>
+                <p className="text-sm opacity-80">+8801334509527</p>
                 <p className="text-sm opacity-80">Available 24/7</p>
               </div>
             </div>

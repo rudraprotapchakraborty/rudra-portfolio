@@ -1,6 +1,6 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-
+import { motion, useScroll, useTransform } from "framer-motion";
 import useDevice from "../hooks/useDevice";
 
 import project0 from "../assets/digital-wallet-system.png";
@@ -20,126 +20,119 @@ const projects = [
     id: 0,
     name: "Digital Wallet System",
     image: project0,
-    description:
-      "A modern digital wallet frontend application built with React + Vite, supporting three user roles: User, Agent, and Admin with full wallet operations, transfers, admin controls & transaction history.",
+    description: "A secure digital wallet frontend for seamless transfers and admin controls.",
+    fullDesc: "A modern digital wallet application built with React + Vite, supporting user, agent, and admin roles with complete transaction history.",
     tech: [reactIcon, nodeIcon, expressIcon, mongoIcon, tailwindIcon],
   },
   {
     id: 1,
-    name: "Hotel Management System",
+    name: "Hotel Management",
     image: project1,
-    description:
-      "A React-based hostel management app featuring authentication, meal management, reviews, payments, and a full admin dashboard.",
+    description: "A comprehensive dashboard for booking, tracking meals, and handling reviews.",
+    fullDesc: "A React-based hostel management platform featuring authentication, meal tracking, reviews, payments, and an admin dashboard.",
     tech: [reactIcon, nodeIcon, expressIcon, mongoIcon, tailwindIcon],
   },
   {
     id: 2,
-    name: "Food Sharing Website",
+    name: "Food Shaver Platform",
     image: project2,
-    description:
-      "A community-driven food-sharing platform to donate food, request essentials, and reduce waste with real-time updates.",
+    description: "Community-driven food-sharing to donate and reduce waste globally.",
+    fullDesc: "A platform built to connect donors with receivers for surplus food, aiming to drastically reduce waste with real-time updates.",
     tech: [reactIcon, firebaseIcon, tailwindIcon],
   },
   {
     id: 3,
-    name: "Movie Portal",
+    name: "Movie DB Portal",
     image: project3,
-    description:
-      "A movie browsing portal with search, filtering, ratings, and detailed info pages built using React.",
+    description: "A sleek, dark-themed movie browsing application.",
+    fullDesc: "A sleek portal with search, filtering, ratings, and detailed informational pages for cinema, utilizing an external public API.",
     tech: [reactIcon, tailwindIcon],
   },
 ];
 
-const Projects = () => {
+const ProjectCard = ({ proj, index }) => {
+  const ref = useRef(null);
   const { isMobile } = useDevice();
-
-  // Desktop animation
-  const desktopFade = (delay = 0) => ({
-    initial: { opacity: 0, y: 50 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true },
-    transition: { duration: 0.6, delay },
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
   });
 
-  // Mobile animation (super light)
-  const mobileFade = {
-    initial: { opacity: 0 },
-    whileInView: { opacity: 1 },
-    viewport: { once: true },
-    transition: { duration: 0.4 },
-  };
+  // Parallax translation for the image ONLY on desktop
+  const y = useTransform(scrollYProgress, [0, 1], isMobile ? ["0%", "0%"] : ["-15%", "15%"]);
 
   return (
-    <section
-      id="projects"
-      className="relative py-20 px-6 md:px-12 bg-[#f9f7ff] dark:bg-[#0b0a0f] transition-all"
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className={`relative rounded-3xl overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.15)] flex flex-col md:flex-row ${
+        index % 2 === 1 ? "md:flex-row-reverse" : ""
+      } bg-white/5 backdrop-blur-lg group`}
     >
+      {/* IMAGE (LEFT side usually) */}
+      <div className="md:w-[55%] h-64 md:h-[450px] relative overflow-hidden">
+        <motion.img
+          style={{ y, scale: 1.15 }}
+          src={proj.image}
+          alt={proj.name}
+          className="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-[1.2] transition-transform duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)]"
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none md:bg-gradient-to-r md:from-black/50 md:to-transparent" />
+      </div>
+
+      {/* TEXT/CONTENT (RIGHT side usually) */}
+      <div className="md:w-[45%] p-8 md:p-12 flex flex-col justify-center bg-black/40 z-10 transition-colors duration-500 group-hover:bg-black/60">
+        <h3 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">
+          {proj.name}
+        </h3>
+        <p className="text-gray-300 text-lg leading-relaxed mb-6 hidden md:block">
+          {proj.fullDesc}
+        </p>
+        <p className="text-gray-300 text-base leading-relaxed mb-6 md:hidden">
+          {proj.description}
+        </p>
+
+        {/* Tech Stack */}
+        <div className="flex items-center gap-3 flex-wrap mb-10">
+          {proj.tech.map((icon, i) => (
+            <div key={i} className="w-10 h-10 p-2 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all">
+               <img src={icon} alt="tech" className="w-full h-full object-contain" />
+            </div>
+          ))}
+        </div>
+
+        <Link
+          to={`/projects/${proj.id}`}
+          className="relative overflow-hidden inline-flex items-center justify-center px-8 py-4 rounded-full font-bold text-white bg-white/10 border border-white/20 hover:border-purple-500 hover:text-purple-300 hover:bg-purple-900/30 transition-all self-start w-auto"
+        >
+          Explore Case Study
+        </Link>
+      </div>
+    </motion.div>
+  );
+};
+
+const Projects = () => {
+  return (
+    <section id="projects" className="relative py-32 px-6 lg:px-24 overflow-hidden">
       {/* Title */}
-      <motion.h2
-        className="text-5xl font-extrabold text-center mb-20 
-        bg-gradient-to-r from-[#a66bff] via-[#c26bff] to-[#9b5cff]
-        text-transparent bg-clip-text"
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        My Projects
-      </motion.h2>
+      <div className="text-center mb-24 relative z-10">
+        <h2 className="text-5xl font-extrabold bg-gradient-to-r from-[#A855F7] to-[#EC4899] text-transparent bg-clip-text drop-shadow-md">
+          Featured Work
+        </h2>
+        <p className="mt-4 text-gray-400 text-lg max-w-xl mx-auto">
+          Here are some of the selected projects that showcase my passion for building dynamic, modern applications.
+        </p>
+      </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      {/* Grid List */}
+      <div className="flex flex-col gap-20 lg:gap-32 w-full max-w-7xl mx-auto z-10 relative">
         {projects.map((proj, index) => (
-          <motion.div
-            key={proj.id}
-            {...(isMobile ? mobileFade : desktopFade(index * 0.15))}
-            className="bg-white dark:bg-[#1a1a1a] border border-[#e7e3ee] 
-            dark:border-[#322645] shadow-[0_0_12px_rgba(0,0,0,0.06)] 
-            rounded-2xl p-8 md:p-10 flex flex-col"
-          >
-            {/* Image */}
-            <div className="w-full h-64 md:h-72 overflow-hidden rounded-xl mb-6">
-              <img
-                src={proj.image}
-                alt={proj.name}
-                className="w-full h-full object-cover rounded-xl"
-              />
-            </div>
-
-            {/* Title */}
-            <h3 className="text-2xl md:text-[26px] font-bold text-[#2b235a] dark:text-white mb-4">
-              {proj.name}
-            </h3>
-
-            {/* Description */}
-            <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed mb-6">
-              {proj.description}
-            </p>
-
-            {/* Tech Icons */}
-            <div className="flex items-center gap-4 flex-wrap mb-8">
-              {proj.tech.map((icon, i) => (
-                <img
-                  key={i}
-                  src={icon}
-                  alt=""
-                  className="w-8 h-8 object-contain opacity-85 hover:opacity-100 transition"
-                />
-              ))}
-            </div>
-
-            {/* Button */}
-            <div className="mt-auto flex justify-start">
-              <Link
-                to={`/projects/${proj.id}`}
-                className="px-6 py-3 rounded-full border border-[#3b2b7f] text-[#3b2b7f]
-                dark:text-white dark:border-[#d8b4fe] font-semibold text-sm
-                hover:bg-[#f2eaff] dark:hover:bg-[#2a1f3d]
-                transition"
-              >
-                View Details →
-              </Link>
-            </div>
-          </motion.div>
+          <ProjectCard key={proj.id} proj={proj} index={index} />
         ))}
       </div>
     </section>
